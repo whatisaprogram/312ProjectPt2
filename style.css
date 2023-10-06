@@ -1,0 +1,13 @@
+.button_like {
+    border: none;
+    color: black;
+    padding: 5px 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button_like {background-color: #D3D3D3;}
