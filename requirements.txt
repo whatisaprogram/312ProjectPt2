@@ -1,0 +1,6 @@
+pymongo
+bcrypt
+Jinja2
+flask
+markupsafe
+waitress
