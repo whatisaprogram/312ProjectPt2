@@ -1,0 +1,60 @@
+
+body {
+    background-color: #000000;
+    color: white;
+}
+
+.my_image {
+    height: 100%;
+}
+
+.image_div {
+    height: 80%;
+}
+
+img.post {
+    width: 120px;
+}
+
+.title {
+    height: 5%;
+}
+
+.header {
+    display: flex;
+    background-color: #F6F1F1;
+    color: black;
+    height: 17%;
+    align-items: center;
+}
+
+.contents {
+    display: flex;
+    justify-content: space-around;
+    height: 78%
+}
+
+.chat {
+    width: 70%;
+    background-color: #146C94;
+    padding: 20px;
+}
+
+#post-container {
+    height: 70%;
+    overflow: scroll;
+}
+
+.post-form {
+    height: 30px;
+}
+
+.user-list {
+    width: 30%;
+    background-color: #19A7CE;
+    padding: 20px;
+}
+
+.header > div {
+    padding: 20px;
+}
