@@ -22,6 +22,8 @@ app = Flask(__name__)
 # clientname = "mongo"
 clientname = "localhost"
 dbname = "cse312"
+mongo_client = MongoClient('mongodb://mongo:27017')
+db = mongo_client['objective2']
 
 
 def add_no_sniff(response):
@@ -32,14 +34,14 @@ class OurDataBase:
     def __init__(self, client_name=clientname, db_name=dbname):
         self.clientname = client_name
         self.dbname = db_name
-        self.mongo_client = pymongo.MongoClient(client_name)
-        self.db = self.mongo_client[dbname]
+        self.mongo_client = db
+        self.db = self.mongo_client[db_name]
 
     def __getitem__(self, key):
-        return self.db[key] # changed by Zuhra to be able to add a new collection before_it_was->["key"]
+        return self.db[key]  # changed by Zuhra to be able to add a new collection before_it_was->["key"]
 
-    def close(self):
-        self.mongo_client.close()
+    # def close(self):
+    #     self.mongo_client.close()
 
 
 def hash_token(token_as_string):
@@ -160,7 +162,7 @@ def join_us_spongebob():
     username = html.escape(req.form["username_reg"])
     password = req.form["password_reg"]
     db = OurDataBase()
-    users = db.__getitem__("Users")
+    users = db["Users"]
     # users = db["Users"]
     found_user = users.find_one({"username": username})
     if found_user is None:
@@ -172,7 +174,6 @@ def join_us_spongebob():
     else:
         bodymessage = username + " is already taken!"
 
-    db.close()
     add_no_sniff(resp)
     resp.status = 301
     resp.data = bodymessage
@@ -188,7 +189,7 @@ def show_me_your_papers():
     username = html.escape(req.form["username_login"])
     password = req.form["password_login"]
     db = OurDataBase()
-    users = db.__getitem__("Users")
+    users = db["Users"]
     # users = db["Users"]
     found_user = users.find_one({"username": username})
     if found_user is not None:
@@ -201,14 +202,13 @@ def show_me_your_papers():
             expires = create_future_timestamp(3600 * 24)  # 1 day
             newvalues = {"$set": {"token": hashed_token, "expires": expires}}
             users.update_one({"username": username}, newvalues)
-            resp.set_cookie('token', auth_token, max_age=3600*24)
+            resp.set_cookie('token', auth_token, max_age=3600 * 24)
             bodymessage = "Login successful!"
         else:
             bodymessage = "Incorrect username or password"
     else:
         bodymessage = "Incorrect username or password"
 
-    db.close()
     add_no_sniff(resp)
     resp.status = 301
     resp.data = bodymessage
@@ -223,14 +223,15 @@ def get_username():
     auth_token = flask.request.cookies.get('token')
     if auth_token is not None:
         token_hash = hash_token(auth_token)
-        users = db.__getitem__("Users")
+        users = db["Users"]
         # users = db["Users"]
         user = users.find_one({"token": token_hash})
         if user is not None:
             username = user["username"]
             return jsonify({"username": username}), 200
-    
+
     return jsonify({"username": None}), 200
+
 
 @app.post("/create-post")
 def create_post():
@@ -254,20 +255,14 @@ def create_post():
     token_hash = hash_token(auth_token)
     user = users.find_one({"token": token_hash})
     if user is None:
-        db.close()
         resp.status = 401  # Unauthorized
         resp.data = "Invalid token. Please log in."
         return resp
 
     username = user["username"]
 
-
-    # old one - juila
-    # Save the post to the database
-    # posts = db["Posts"]
-
     # Added by zuhra to create a new collection
-    posts = db.__getitem__("Posts")
+    posts = db["Posts"]
 
     posts.insert_one({
         "title": title,
@@ -275,17 +270,16 @@ def create_post():
         "username": username
     })
 
-    db.close()
-    
     # Redirect to the home page after creating the post
     resp.status = 302
     resp.headers['Location'] = "/"
     return resp
 
+
 @app.route("/chat-history", methods=["GET"])
 def chat_history():
     db = OurDataBase()
-    posts = db.__getitem__("Posts")
+    posts = db["Posts"]
     existing_posts = list(posts.find({}, {'_id': 0}))
 
     return existing_posts, 200
