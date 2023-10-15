@@ -1,0 +1,94 @@
+<html>
+
+<head>
+    <title>CSE312 Homework App</title>
+    <link rel="stylesheet" type="text/css" href="/public/style.css" />
+</head>
+
+<body onload="welcome();">
+
+    <div class="title">
+        <h2>CSE312 App</h2>
+    </div>
+
+    <div class="header">
+        <div class="image_div">
+            <img src="/public/image/kitten.jpg" alt="It's a kitten!" class="my_image" />
+        </div>
+        <div>
+            <p id="paragraph">
+                Welcome to CSE312 Social Media 🙂
+            </p>
+        </div>
+
+        <div class="user-info">
+            <h3 id="username"></h3>
+        </div>
+    </div>
+
+
+    <div class="contents">
+        <div class="chat">
+            <h2 id="post_history">Post History</h2>
+                <div id="chat_box">
+                </div>
+
+            <div class="post-form">
+                <h2>Create a Post</h2>
+                <form action="/create-post" method="post" enctype="application/x-www-form-urlencoded">
+                    <label>Title:
+                        <input id="post-title" type="text" name="title">
+                    </label>
+                    <br>
+                    <label>Description:
+                        <textarea id="post-description" name="description" rows="4" cols="50"></textarea>
+                    </label>
+                    <br>
+                    <input type="submit" value="Create Post">
+                </form>
+            </div>
+
+
+        </div>
+        <div class="user-list">
+
+
+            Register:
+            <form action="/register" method="post" enctype="application/x-www-form-urlencoded">
+                <label>Username:
+                    <input id="reg-form-username" type="text" name="username_reg" />
+                </label>
+                <br />
+                <label>Password:&nbsp;
+                    <input id="reg-form-pass" type="password" name="password_reg">
+                </label>
+                <input type="submit" value="Post">
+            </form>
+
+            Login:
+            <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
+                <label>Username:
+                    <input id="login-form-username" type="text" name="username_login" />
+                </label>
+                <br />
+                <label>Password:&nbsp;
+                    <input id="login-form-pass" type="password" name="password_login">
+                </label>
+                <input type="submit" value="Post">
+            </form>
+
+
+        </div>
+    </div>
+
+
+    <script src="/public/functions.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchAndDisplayExistingPosts();
+        });
+    </script>
+</body>
+
+</html>
