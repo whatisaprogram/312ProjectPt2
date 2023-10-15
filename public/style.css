@@ -40,9 +40,11 @@ img.post {
     padding: 20px;
 }
 
-#post-container {
-    height: 70%;
+#chat_box {
+    height: 50%;
     overflow: scroll;
+    background-color: #F6F1F1;
+    color: black;
 }
 
 .post-form {

@@ -1,3 +1,5 @@
+from pymongo import MongoClient
+
 from util.request import Request
 import string
 from datetime import datetime, timezone, timedelta
@@ -10,13 +12,15 @@ import hashlib
 from flask import Flask, jsonify
 import flask
 import os
-from flask import request
+from flask import request, send_file
+from flask import Response
 from flask import render_template
 from markupsafe import escape
 
 app = Flask(__name__)
 # for easy switching between local and docker
-clientname = "mongo"
+# clientname = "mongo"
+clientname = "localhost"
 dbname = "cse312"
 
 
@@ -32,7 +36,7 @@ class OurDataBase:
         self.db = self.mongo_client[dbname]
 
     def __getitem__(self, key):
-        return self.db["key"]
+        return self.db[key] # changed by Zuhra to be able to add a new collection before_it_was->["key"]
 
     def close(self):
         self.mongo_client.close()
@@ -156,7 +160,8 @@ def join_us_spongebob():
     username = html.escape(req.form["username_reg"])
     password = req.form["password_reg"]
     db = OurDataBase()
-    users = db["Users"]
+    users = db.__getitem__("Users")
+    # users = db["Users"]
     found_user = users.find_one({"username": username})
     if found_user is None:
         bytess = password.encode('utf-8')
@@ -183,7 +188,8 @@ def show_me_your_papers():
     username = html.escape(req.form["username_login"])
     password = req.form["password_login"]
     db = OurDataBase()
-    users = db["Users"]
+    users = db.__getitem__("Users")
+    # users = db["Users"]
     found_user = users.find_one({"username": username})
     if found_user is not None:
         hashed_pw = found_user["password"]
@@ -217,7 +223,8 @@ def get_username():
     auth_token = flask.request.cookies.get('token')
     if auth_token is not None:
         token_hash = hash_token(auth_token)
-        users = db["Users"]
+        users = db.__getitem__("Users")
+        # users = db["Users"]
         user = users.find_one({"token": token_hash})
         if user is not None:
             username = user["username"]
@@ -254,8 +261,14 @@ def create_post():
 
     username = user["username"]
 
+
+    # old one - juila
     # Save the post to the database
-    posts = db["Posts"]
+    # posts = db["Posts"]
+
+    # Added by zuhra to create a new collection
+    posts = db.__getitem__("Posts")
+
     posts.insert_one({
         "title": title,
         "description": description,
@@ -269,18 +282,13 @@ def create_post():
     resp.headers['Location'] = "/"
     return resp
 
-
-@app.route("/get-existing-posts", methods=["GET"])
-def get_existing_posts():
+@app.route("/chat-history", methods=["GET"])
+def chat_history():
     db = OurDataBase()
-    posts = db["Posts"]
-    existing_posts = list(posts.find(projection={"_id": False}))
-    print("existing posts ===", existing_posts)
+    posts = db.__getitem__("Posts")
+    existing_posts = list(posts.find({}, {'_id': 0}))
 
-    return jsonify([resource for resource in existing_posts]), 200
-
-
-
+    return existing_posts, 200
 
 
 if __name__ == "__main__":
