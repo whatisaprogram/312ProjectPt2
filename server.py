@@ -19,8 +19,8 @@ from markupsafe import escape
 
 app = Flask(__name__)
 # for easy switching between local and docker
-# clientname = "mongo"
-clientname = "localhost"
+clientname = "mongo"
+# clientname = "localhost"
 dbname = "cse312"
 
 
