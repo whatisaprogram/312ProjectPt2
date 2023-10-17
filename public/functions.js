@@ -15,7 +15,8 @@ function chatMessageHTML(messageJSON) {
     const description = messageJSON.description
     const messageId = messageJSON.id;
     let messageHTML = "<br><button onclick='deleteMessage(\"" + messageId + "\")'>X</button> ";
-    messageHTML += "<span id='message_" + messageId + "'><strong>" + username + "</strong>" + ": " + "<strong>" + " Title: " + "</strong>" + title + "<strong>" + " Description: " + "</strong>" + description + "</span>";
+    messageHTML += "<span id='message_" + messageId + "'><strong>" + username + "</strong>" + ": " + "<strong>" + " Title: " + "</strong>" + title + "<strong>" + " Description: " + "</strong>" + description +
+        "<button class='button_like' onclick='like()'>Like</button>" + "<div id='like'>0</div>" + "</span>";
     return messageHTML;
 }
 
@@ -98,6 +99,21 @@ function getUserName() {
 //     });
 // }
 
+var pressed = false
+
+function like() {
+    var text = document.getElementById("like");
+    if (pressed === false){
+        text.innerHTML = (parseInt(text.innerHTML) + 1).toString()
+        pressed = true
+        document.getElementById("like_button").style.backgroundColor = "LawnGreen";
+    }
+    else{
+        text.innerHTML = (parseInt(text.innerHTML) - 1).toString()
+        pressed = false
+        document.getElementById("like_button").style.backgroundColor = "LightGrey";
+    }
+}
 
 function welcome() {
     document.addEventListener("keypress", function (event) {

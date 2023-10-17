@@ -9,7 +9,7 @@ import html
 import bcrypt
 import secrets
 import hashlib
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response, request
 import flask
 import os
 from flask import request, send_file
@@ -229,7 +229,7 @@ def get_username():
         if user is not None:
             username = user["username"]
             return jsonify({"username": username}), 200
-    
+
     return jsonify({"username": None}), 200
 
 @app.post("/create-post")
@@ -276,7 +276,7 @@ def create_post():
     })
 
     db.close()
-    
+
     # Redirect to the home page after creating the post
     resp.status = 302
     resp.headers['Location'] = "/"
@@ -289,6 +289,24 @@ def chat_history():
     existing_posts = list(posts.find({}, {'_id': 0}))
 
     return existing_posts, 200
+
+# @app.route("/public/style.css")
+# def style_path():
+#     f = open("style.css", "r", encoding="utf-8")
+#     g = f.read()
+#     data = make_response(g)
+#     data.headers["X-Content-Type-Options"] = "nosniff"
+#     data.headers["Content-Type"] = "text/css;charset=utf-8"
+#     return data
+#
+# @app.route("/public/functions.js")
+# def functions_path():
+#     f = open("functions.js", "r", encoding="utf-8")
+#     g = f.read()
+#     data = make_response(g)
+#     data.headers["X-Content-Type-Options"] = "nosniff"
+#     data.headers["Content-Type"] = "text/javascript; charset=utf-8"
+#     return data
 
 
 if __name__ == "__main__":
