@@ -269,6 +269,27 @@ def create_post():
     # Added by zuhra to create a new collection
     posts = db.__getitem__("Posts")
 
+    #creating unique ids for posts
+    collection = posts.find({})
+    id_post = 1
+    like_count = "0"
+    for i in collection:
+        id_post = int(i.get('post_id', 0)) + 1
+
+    #added likes and unique post ID
+    posts.insert_one({
+        "title": title,
+        "description": description,
+        "username": username,
+        "total": like_count,
+        "post_id": str(id_post)
+    })
+
+    #print db collection for posts
+    collection = posts.find({})
+    for i in collection:
+        print(i)
+
     posts.insert_one({
         "title": title,
         "description": description,
