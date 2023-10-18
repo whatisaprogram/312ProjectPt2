@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9d988e35-642b-462e-a409-8a956b248f7d" name="Changes" comment="Updated database for each post to have likes and unique ids. Updated total like count." />
+    <list default="true" id="9d988e35-642b-462e-a409-8a956b248f7d" name="Changes" comment="Updated database for each post to have likes and unique ids. Updated total like count.">
+      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,6 +37,14 @@
       <option name="presentableId" value="Default" />
       <updated>1694818410652</updated>
     </task>
+    <task id="LOCAL-00001" summary="Updated database for each post to have likes and unique ids. Updated total like count.">
+      <created>1697607952708</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1697607952708</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
