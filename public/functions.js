@@ -128,6 +128,7 @@ function like(postId, like_count) {
     request.send(JSON.stringify(likes));
 }
 
+
 function welcome() {
     document.addEventListener("keypress", function (event) {
         if (event.code === "Enter") {
