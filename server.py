@@ -59,6 +59,18 @@ def create_future_timestamp(secs=3600):
 def current_timestamp():
     return datetime.now(timezone.utc).timestamp()
 
+#checks if the user is authenticated if not or user is not logged in then returns None
+def user_authenticated():
+    auth_token = flask.request.cookies.get('token')
+    if auth_token is not None:
+        db = OurDataBase()
+        users = db["Users"]
+        token_hash = hash_token(auth_token)
+        user = users.find_one({"token": token_hash})
+        if user is not None:
+            return user
+    return None
+
 
 @app.get("/")
 def site_root():
@@ -290,18 +302,13 @@ def create_post():
     for i in collection:
         print(i)
 
-    posts.insert_one({
-        "title": title,
-        "description": description,
-        "username": username
-    })
-
     db.close()
 
     # Redirect to the home page after creating the post
     resp.status = 302
     resp.headers['Location'] = "/"
     return resp
+
 
 @app.route("/chat-history", methods=["GET"])
 def chat_history():
@@ -310,6 +317,47 @@ def chat_history():
     existing_posts = list(posts.find({}, {'_id': 0}))
 
     return existing_posts, 200
+
+
+@app.route("/like", methods =["POST"])
+def like():
+    data = request.get_json()
+    current_like = data.get('like')
+    post_id = data.get('post_id')
+    total = int(data.get('total'))
+    response = flask.Response()
+    db = OurDataBase()
+    liked_status = db.__getitem__("Status")
+    posts = db.__getitem__("Posts")
+
+    user = user_authenticated()
+    status = liked_status.find_one({"username": user, "post_id": post_id})
+    if user is not None:
+        if status is None:
+            liked_status.insert_one({"username": user, "status": "1", "post_id": post_id})
+            status = liked_status.find_one({"username": user, "post_id": post_id})
+
+        if current_like == "0" and status["status"] != "1":
+            posts.update_one({"post_id": post_id}, {"$set": {"total": str(total - 1)}})
+            liked_status.update_one({"username": user, "post_id": post_id}, {"$set": {"status": "1"}})
+
+        elif current_like == "1" and status["status"] != "0":
+            posts.update_one({"post_id": post_id}, {"$set": {"total": str(total + 1)}})
+            liked_status.update_one({"username": user, "post_id": post_id}, {"$set": {"status": "0"}})
+
+        elif current_like == "0" and status["status"] == "1":
+            posts.update_one({"post_id": post_id}, {"$set": {"total": str(total + 1)}})
+            liked_status.update_one({"username": user, "post_id": post_id}, {"$set": {"status": "0"}})
+
+        elif current_like == "1" and status["status"] == "0":
+            posts.update_one({"post_id": post_id}, {"$set": {"total": str(total - 1)}})
+            liked_status.update_one({"username": user, "post_id": post_id}, {"$set": {"status": "1"}})
+
+    response.status = 302
+    response.headers['Location'] = "/"
+    return response
+
+
 
 # @app.route("/public/style.css")
 # def style_path():
