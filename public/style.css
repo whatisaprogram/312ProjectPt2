@@ -1,9 +1,9 @@
 
-body {
-    background-color: #000000;
-    color: white;
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
-
 .my_image {
     height: 100%;
 }
@@ -16,9 +16,6 @@ img.post {
     width: 120px;
 }
 
-.title {
-    height: 5%;
-}
 
 .header {
     display: flex;
@@ -31,7 +28,7 @@ img.post {
 .contents {
     display: flex;
     justify-content: space-around;
-    height: 78%
+    height: 100%;
 }
 
 .chat {
@@ -61,6 +58,24 @@ img.post {
     padding: 20px;
 }
 
+.user-info {
+    position: absolute;
+    top: 15px;   
+    right: 15px; 
+}
+
+#username {
+    background-color: #e74c3c; 
+    color: #fff;  
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+
+
 .button_like {
     border: none;
     color: black;
@@ -72,5 +87,36 @@ img.post {
     margin: 4px 2px;
     cursor: pointer;
 }
+
+.post-form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.button_like {
+    background-color: transparent; 
+    border: none; 
+    color: #e74c3c; 
+    font-size: 18px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: color 0.3s;
+    padding: 0; 
+    outline: none; 
+}
+
+.button_like:hover {
+    color: #c0392b; 
+}
+
+.button_like:focus {
+    outline: none; 
+    box-shadow: none; 
+}
+
+#like_count {
+    vertical-align: middle; 
+}
+
 
 .button_like {background-color: #D3D3D3;}

@@ -7,22 +7,14 @@
 
 <body onload="welcome();">
 
-    <div class="title">
-        <h2>CSE312 App</h2>
-    </div>
-
     <div class="header">
-        <div class="image_div">
-            <img src="/public/image/kitten.jpg" alt="It's a kitten!" class="my_image" />
-        </div>
-        <div>
+        <div class="welcome-section">
             <p id="paragraph">
-                Welcome to CSE312 Social Media 🙂
             </p>
         </div>
 
         <div class="user-info">
-            <h3 id="username"></h3>
+            <button id="username">Subscribe</button>
         </div>
     </div>
 
@@ -34,21 +26,17 @@
                 </div>
 
 
-            <div class="post-form">
-                <h2>Create a Post</h2>
-                <form action="/create-post" method="post" enctype="application/x-www-form-urlencoded">
-                    <label>Title:
+                <div class="post-form">
+                    <form action="/create-post" method="post" enctype="application/x-www-form-urlencoded">
+                        <label for="post-title">Title:</label>
                         <input id="post-title" type="text" name="title">
-                    </label>
-                    <br>
-                    <label>Description:
+                        <br>
+                        <label for="post-description">Description:</label>
                         <textarea id="post-description" name="description" rows="4" cols="50"></textarea>
-                    </label>
-                    <br>
-                    <input type="submit" value="Create Post">
-                </form>
-            </div>
-
+                        <br>
+                        <input type="submit" value="Create Post">
+                    </form>
+                </div>
 
         </div>
         <div class="user-list">

@@ -17,10 +17,13 @@ function chatMessageHTML(messageJSON) {
     const likes = messageJSON.total;
     const postId = messageJSON.post_id;
     let messageHTML = "<br><button onclick='deleteMessage(\"" + messageId + "\")'>X</button> ";
-    messageHTML += "<span id='message_" + messageId + "'><strong>" + username + "</strong>" + ": " + "<strong>" + " Title: " + "</strong>" + title + "<strong>" + " Description: " + "</strong>" + description +
-        "<button id= 'like_button' class='button_like' onclick='like(\"" + postId + "\", " + likes + ")'>Like</button>" + "<div id= like>" + likes + "</div>" + "</span>";
+    messageHTML += "<span id='message_" + messageId + "'><strong>" + username + "</strong>" + ": " + "<strong>" + " Title: " + "</strong>" + title + "<strong>" + " Description: " + "</strong>" + description;
+    // Heart button and like count
+    messageHTML += "<button id='like_button' class='button_like' onclick='like(\"" + postId + "\", " + likes + ")'>❤</button>" + "<span id='like_count'>" + likes + "</span>";
+    messageHTML += "</span>";
     return messageHTML;
 }
+
 
 function clearChat() {
     const chatMessages = document.getElementById("chat_box");
