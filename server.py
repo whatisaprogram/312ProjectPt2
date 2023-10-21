@@ -72,12 +72,31 @@ def user_authenticated():
     return None
 
 
+
 @app.get("/")
 def site_root():
-    resp = flask.Response()
-    with open("./public/index.html", 'rb') as f:
+    user = user_authenticated()
+    if user:  # If user is authenticated
+        return flask.redirect("/dashboard")  # Redirect to a dashboard or main page
+    else:  # If user is not authenticated, show the login page
+        resp = flask.Response()
+        with open("./public/login.html", 'rb') as f:
+            content = f.read()
+            resp.data = content
+        resp.headers['Content-Type'] = 'text/html; charset=utf-8'
+        resp.headers['X-Content-Type-Options'] = 'nosniff'
+        return resp
+
+@app.get("/dashboard")
+def dashboard():
+    user = user_authenticated()
+    if not user:  # If user is not authenticated
+        return flask.redirect("/")  # Redirect to login page
+
+    with open("./public/index.html", 'rb') as f:  # Assuming you have an index.html in the public directory
         content = f.read()
-        resp.data = content
+    resp = flask.Response()
+    resp.data = content
     resp.headers['Content-Type'] = 'text/html; charset=utf-8'
     resp.headers['X-Content-Type-Options'] = 'nosniff'
     return resp
@@ -183,13 +202,14 @@ def join_us_spongebob():
         bodymessage = "Successfully created " + username + "!"
     else:
         bodymessage = username + " is already taken!"
-
+    
     db.close()
     add_no_sniff(resp)
     resp.status = 301
     resp.data = bodymessage
     resp.headers['Content-Type'] = "text/plain"
     resp.headers['Location'] = "/"
+
     return resp
 
 
@@ -207,7 +227,7 @@ def show_me_your_papers():
         hashed_pw = found_user["password"]
         bytess = password.encode('utf-8')
         check = bcrypt.checkpw(bytess, hashed_pw)
-        if check:
+        if check:  # Successful login
             auth_token = create_token()
             hashed_token = hash_token(auth_token)
             expires = create_future_timestamp(3600 * 24)  # 1 day
@@ -215,8 +235,10 @@ def show_me_your_papers():
             users.update_one({"username": username}, newvalues)
             resp.set_cookie('token', auth_token, max_age=3600*24)
             bodymessage = "Login successful!"
+            resp.headers['Location'] = "/dashboard"  # Redirect to a dashboard or main page after successful login
         else:
             bodymessage = "Incorrect username or password"
+            resp.headers['Location'] = "/" 
     else:
         bodymessage = "Incorrect username or password"
 

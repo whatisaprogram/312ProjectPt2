@@ -9,11 +9,11 @@ body, html {
 }
 
 .image_div {
-    height: 80%;
+    height: 95%;
 }
 
 img.post {
-    width: 120px;
+    width: 170px;
 }
 
 
@@ -120,3 +120,5 @@ img.post {
 
 
 .button_like {background-color: #D3D3D3;}
+
+
