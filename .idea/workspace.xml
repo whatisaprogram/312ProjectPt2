@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9d988e35-642b-462e-a409-8a956b248f7d" name="Changes" comment="Updated database for each post to have likes and unique ids. Updated total like count.">
+    <list default="true" id="9d988e35-642b-462e-a409-8a956b248f7d" name="Changes" comment="Final Draft: LO1, LO2, LO3 Combined">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -12,11 +13,17 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
   </component>
   <component name="ProjectId" id="2VS92yy2EnUtDB1uff7TVuGGhaS" />
   <component name="ProjectViewState">
@@ -24,6 +31,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -36,6 +45,10 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1694818410652</updated>
+      <workItem from="1697634617676" duration="1000" />
+      <workItem from="1697733560416" duration="1214000" />
+      <workItem from="1697847398949" duration="595000" />
+      <workItem from="1697848353123" duration="2311000" />
     </task>
     <task id="LOCAL-00001" summary="Updated database for each post to have likes and unique ids. Updated total like count.">
       <created>1697607952708</created>
@@ -44,8 +57,18 @@
       <option name="project" value="LOCAL" />
       <updated>1697607952708</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Final Draft: LO1, LO2, LO3 Combined">
+      <created>1697608162733</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1697608162733</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -60,6 +83,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated database for each post to have likes and unique ids. Updated total like count." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated database for each post to have likes and unique ids. Updated total like count." />
+    <MESSAGE value="Final Draft: LO1, LO2, LO3 Combined" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final Draft: LO1, LO2, LO3 Combined" />
   </component>
 </project>
