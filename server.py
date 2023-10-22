@@ -86,14 +86,18 @@ def site_root():
         resp.headers['Content-Type'] = 'text/html; charset=utf-8'
         resp.headers['X-Content-Type-Options'] = 'nosniff'
         return resp
+    
 
-@app.get("/dashboard")
+@app.route("/guest")
+def guest_login():
+    resp = flask.redirect("/dashboard")
+    add_no_sniff(resp)
+    return resp
+
+@app.route("/dashboard")
 def dashboard():
     user = user_authenticated()
-    if not user:  # If user is not authenticated
-        return flask.redirect("/")  # Redirect to login page
-
-    with open("./public/index.html", 'rb') as f:  # Assuming you have an index.html in the public directory
+    with open("./public/index.html", 'rb') as f:
         content = f.read()
     resp = flask.Response()
     resp.data = content
@@ -124,6 +128,7 @@ def send_static_file(file):
                 "css": "text/css; charset = utf8",
                 "js": "text/javascript; charset = utf8",
                 "png": "image/png",
+                'jpg':'image/jpeg',
                 "": "text/plain"}
     contenttype = file.split(".")[-1]
     if contenttype in fileends:
@@ -264,7 +269,8 @@ def get_username():
             username = user["username"]
             return jsonify({"username": username}), 200
 
-    return jsonify({"username": None}), 200
+
+    return jsonify({"username": "Guest"}), 200
 
 @app.post("/create-post")
 def create_post():
