@@ -19,8 +19,8 @@ from markupsafe import escape
 
 app = Flask(__name__)
 # for easy switching between local and docker
-clientname = "mongo"
-# clientname = "localhost"
+# clientname = "mongo"
+clientname = "localhost"
 dbname = "cse312"
 
 
@@ -77,7 +77,10 @@ def user_authenticated():
 def site_root():
     user = user_authenticated()
     if user:  # If user is authenticated
-        return flask.redirect("/dashboard")  # Redirect to a dashboard or main page
+        # Redirect to a dashboard or main page
+        response = flask.redirect("/dashboard")
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        return response
     else:  # If user is not authenticated, show the login page
         resp = flask.Response()
         with open("./public/login.html", 'rb') as f:
