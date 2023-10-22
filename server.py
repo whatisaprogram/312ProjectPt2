@@ -19,8 +19,8 @@ from markupsafe import escape
 
 app = Flask(__name__)
 # for easy switching between local and docker
-clientname = "mongo"
-# clientname = "localhost"
+# clientname = "mongo"
+clientname = "localhost"
 dbname = "cse312"
 
 
@@ -36,7 +36,7 @@ class OurDataBase:
         self.db = self.mongo_client[dbname]
 
     def __getitem__(self, key):
-        return self.db[key] # changed by Zuhra to be able to add a new collection before_it_was->["key"]
+        return self.db[key]  # changed by Zuhra to be able to add a new collection before_it_was->["key"]
 
     def close(self):
         self.mongo_client.close()
@@ -59,7 +59,8 @@ def create_future_timestamp(secs=3600):
 def current_timestamp():
     return datetime.now(timezone.utc).timestamp()
 
-#checks if the user is authenticated if not or user is not logged in then returns None
+
+# checks if the user is authenticated if not or user is not logged in then returns None
 def user_authenticated():
     auth_token = flask.request.cookies.get('token')
     if auth_token is not None:
@@ -70,7 +71,6 @@ def user_authenticated():
         if user is not None:
             return user
     return None
-
 
 
 @app.get("/")
@@ -88,12 +88,21 @@ def site_root():
         return resp
     
 
+<<<<<<< Updated upstream
 @app.route("/guest")
+=======
+
+@app.route("/dashboard")
+>>>>>>> Stashed changes
 def guest_login():
     resp = flask.redirect("/dashboard")
     add_no_sniff(resp)
     return resp
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 @app.route("/dashboard")
 def dashboard():
     user = user_authenticated()
@@ -207,7 +216,7 @@ def join_us_spongebob():
         bodymessage = "Successfully created " + username + "!"
     else:
         bodymessage = username + " is already taken!"
-    
+
     db.close()
     add_no_sniff(resp)
     resp.status = 301
@@ -238,12 +247,12 @@ def show_me_your_papers():
             expires = create_future_timestamp(3600 * 24)  # 1 day
             newvalues = {"$set": {"token": hashed_token, "expires": expires}}
             users.update_one({"username": username}, newvalues)
-            resp.set_cookie('token', auth_token, max_age=3600*24, httponly=True)
+            resp.set_cookie('token', auth_token, max_age=3600 * 24, httponly=True)
             bodymessage = "Login successful!"
             resp.headers['Location'] = "/dashboard"  # Redirect to a dashboard or main page after successful login
         else:
             bodymessage = "Incorrect username or password"
-            resp.headers['Location'] = "/" 
+            resp.headers['Location'] = "/"
     else:
         bodymessage = "Incorrect username or password"
 
@@ -266,11 +275,23 @@ def get_username():
         # users = db["Users"]
         user = users.find_one({"token": token_hash})
         if user is not None:
-            username = user["username"]
-            return jsonify({"username": username}), 200
+            username = str(user["username"])
+            username = username.replace("&lt;", "<")
+            username = username.replace("&gt;", ">")
+            if username.find("&amp"):
+                username = username.replace("&amp;", "&")
+            response = jsonify({"username": username})
+            response.headers['X-Content-Type-Options'] = 'nosniff'
+            return response, 200
 
+<<<<<<< Updated upstream
 
     return jsonify({"username": "Guest"}), 200
+=======
+    response = jsonify({"username": "Guest"})
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    return response, 200
+>>>>>>> Stashed changes
 
 @app.post("/create-post")
 def create_post():
@@ -301,7 +322,6 @@ def create_post():
 
     username = user["username"]
 
-
     # old one - juila
     # Save the post to the database
     # posts = db["Posts"]
@@ -309,14 +329,14 @@ def create_post():
     # Added by zuhra to create a new collection
     posts = db.__getitem__("Posts")
 
-    #creating unique ids for posts
+    # creating unique ids for posts
     collection = posts.find({})
     id_post = 1
     like_count = "0"
     for i in collection:
         id_post = int(i.get('post_id', 0)) + 1
 
-    #added likes and unique post ID
+    # added likes and unique post ID
     posts.insert_one({
         "title": title,
         "description": description,
@@ -325,7 +345,7 @@ def create_post():
         "post_id": str(id_post)
     })
 
-    #print db collection for posts
+    # print db collection for posts
     collection = posts.find({})
     for i in collection:
         print(i)
@@ -344,15 +364,17 @@ def chat_history():
     posts = db.__getitem__("Posts")
     existing_posts = list(posts.find({}, {'_id': 0}))
 
-    return existing_posts, 200
+    response = app.make_response(existing_posts)
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    return response
 
-#Like for Obj3
-@app.route("/like", methods =["POST"])
+# Like for Obj3
+@app.route("/like", methods=["POST"])
 def like():
     data = request.get_json()
     current_like = data.get('like')
     post_id = data.get('post_id')
-    #total = int(data.get('total'))
+    # total = int(data.get('total'))
     response = flask.Response()
     db = OurDataBase()
     liked_status = db.__getitem__("Status")
@@ -385,8 +407,8 @@ def like():
 
     response.status = 302
     response.headers['Location'] = "/"
+    response.headers['X-Content-Type-Options'] = 'nosniff'
     return response
-
 
 
 # @app.route("/public/style.css")

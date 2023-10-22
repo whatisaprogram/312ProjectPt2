@@ -72,37 +72,16 @@ function getUserName() {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            console.log('getUserName response: ', this.responseText);
+            // console.log('getUserName response: ', this.responseText);
             const username = JSON.parse(this.responseText).username;
+            // console.log(username)
             document.getElementById("username").innerText = `Welcome, ${username}!`;
         }
     }
     request.open("GET", "/get-username");
+    request.setRequestHeader("X-Content-Type-Options", "nosniff")
     request.send();
 }
-
-
-// Not needed - by Zuhra
-// function fetchAndDisplayExistingPosts() {
-//     const request = new XMLHttpRequest();
-//     request.onreadystatechange = function () {
-//         if (this.readyState === 4) {
-//             const existingPosts = JSON.parse(this.response);
-//             displayExistingPosts(existingPosts);
-//         }
-//     }
-//     request.open("GET", "/get-existing-posts");
-//     request.send();
-// }
-//
-// function displayExistingPosts(existingPosts) {
-//     const postContainer = document.getElementById("post-container");
-//
-//     // Iterate through existing posts and append them to the page
-//     postContainer.forEach(function (post) {
-//         appendPostToContainer(post);
-//     });
-// }
 
 var history = {};
 
