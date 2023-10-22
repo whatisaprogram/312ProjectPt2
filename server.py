@@ -19,8 +19,8 @@ from markupsafe import escape
 
 app = Flask(__name__)
 # for easy switching between local and docker
-# clientname = "mongo"
-clientname = "localhost"
+clientname = "mongo"
+# clientname = "localhost"
 dbname = "cse312"
 
 
@@ -86,23 +86,15 @@ def site_root():
         resp.headers['Content-Type'] = 'text/html; charset=utf-8'
         resp.headers['X-Content-Type-Options'] = 'nosniff'
         return resp
-    
 
-<<<<<<< Updated upstream
+
 @app.route("/guest")
-=======
-
-@app.route("/dashboard")
->>>>>>> Stashed changes
 def guest_login():
     resp = flask.redirect("/dashboard")
     add_no_sniff(resp)
     return resp
 
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 @app.route("/dashboard")
 def dashboard():
     user = user_authenticated()
@@ -137,7 +129,7 @@ def send_static_file(file):
                 "css": "text/css; charset = utf8",
                 "js": "text/javascript; charset = utf8",
                 "png": "image/png",
-                'jpg':'image/jpeg',
+                'jpg': 'image/jpeg',
                 "": "text/plain"}
     contenttype = file.split(".")[-1]
     if contenttype in fileends:
@@ -284,14 +276,10 @@ def get_username():
             response.headers['X-Content-Type-Options'] = 'nosniff'
             return response, 200
 
-<<<<<<< Updated upstream
-
-    return jsonify({"username": "Guest"}), 200
-=======
     response = jsonify({"username": "Guest"})
     response.headers['X-Content-Type-Options'] = 'nosniff'
     return response, 200
->>>>>>> Stashed changes
+
 
 @app.post("/create-post")
 def create_post():
@@ -355,6 +343,7 @@ def create_post():
     # Redirect to the home page after creating the post
     resp.status = 302
     resp.headers['Location'] = "/"
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
     return resp
 
 
@@ -409,26 +398,6 @@ def like():
     response.headers['Location'] = "/"
     response.headers['X-Content-Type-Options'] = 'nosniff'
     return response
-
-
-# @app.route("/public/style.css")
-# def style_path():
-#     f = open("style.css", "r", encoding="utf-8")
-#     g = f.read()
-#     data = make_response(g)
-#     data.headers["X-Content-Type-Options"] = "nosniff"
-#     data.headers["Content-Type"] = "text/css;charset=utf-8"
-#     return data
-#
-# @app.route("/public/functions.js")
-# def functions_path():
-#     f = open("functions.js", "r", encoding="utf-8")
-#     g = f.read()
-#     data = make_response(g)
-#     data.headers["X-Content-Type-Options"] = "nosniff"
-#     data.headers["Content-Type"] = "text/javascript; charset=utf-8"
-#     return data
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=False)
