@@ -233,7 +233,7 @@ def show_me_your_papers():
             expires = create_future_timestamp(3600 * 24)  # 1 day
             newvalues = {"$set": {"token": hashed_token, "expires": expires}}
             users.update_one({"username": username}, newvalues)
-            resp.set_cookie('token', auth_token, max_age=3600*24)
+            resp.set_cookie('token', auth_token, max_age=3600*24, httponly=True)
             bodymessage = "Login successful!"
             resp.headers['Location'] = "/dashboard"  # Redirect to a dashboard or main page after successful login
         else:
