@@ -19,8 +19,8 @@ from markupsafe import escape
 
 app = Flask(__name__)
 # for easy switching between local and docker
-# clientname = "mongo"
-clientname = "localhost"
+clientname = "mongo"
+#clientname = "localhost"
 dbname = "cse312"
 
 
@@ -69,7 +69,7 @@ def user_authenticated():
         token_hash = hash_token(auth_token)
         user = users.find_one({"token": token_hash})
         if user is not None:
-            return user
+            return user["username"]
     return None
 
 
@@ -375,8 +375,8 @@ def like():
     total = int(total["total"])
 
     user = user_authenticated()
-    status = liked_status.find_one({"username": user, "post_id": post_id})
     if user is not None:
+        status = liked_status.find_one({"username": user, "post_id": post_id})
         if status is None:
             liked_status.insert_one({"username": user, "status": "1", "post_id": post_id})
             status = liked_status.find_one({"username": user, "post_id": post_id})

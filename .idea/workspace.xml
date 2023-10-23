@@ -26,6 +26,7 @@
     <option name="version" value="2" />
   </component>
   <component name="ProjectId" id="2VS92yy2EnUtDB1uff7TVuGGhaS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -49,6 +50,7 @@
       <workItem from="1697733560416" duration="1214000" />
       <workItem from="1697847398949" duration="595000" />
       <workItem from="1697848353123" duration="2311000" />
+      <workItem from="1698027376098" duration="3118000" />
     </task>
     <task id="LOCAL-00001" summary="Updated database for each post to have likes and unique ids. Updated total like count.">
       <created>1697607952708</created>
