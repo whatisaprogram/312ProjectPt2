@@ -17,13 +17,6 @@ img.post {
 }
 
 
-.header {
-    display: flex;
-    background-color: #F6F1F1;
-    color: black;
-    height: 17%;
-    align-items: center;
-}
 
 .contents {
     display: flex;
@@ -64,16 +57,7 @@ img.post {
     right: 15px; 
 }
 
-#username {
-    background-color: #e74c3c; 
-    color: #fff;  
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer; 
-    transition: background-color 0.3s; 
-}
+
 
 
 .button_like {
@@ -122,3 +106,27 @@ img.post {
 .button_like {background-color: #D3D3D3;}
 
 
+.topnav {
+    overflow: hidden;
+    background-color: #c95151;
+}
+  
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+  
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+  
+.topnav a.split {
+    float: right;
+    background-color: #695fc2;
+    color: white;
+}

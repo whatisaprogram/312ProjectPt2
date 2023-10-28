@@ -118,7 +118,7 @@ function welcome() {
         }
     });
 
-    document.getElementById("paragraph").innerHTML += "<br/>You Social Media Feed! 😀";
+    // document.getElementById("paragraph").innerHTML += "<br/>You Social Media Feed! 😀";
     // document.getElementById("chat-text-box").focus();
 
     getUserName();

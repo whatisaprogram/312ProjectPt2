@@ -402,5 +402,22 @@ def like():
     response.headers['X-Content-Type-Options'] = 'nosniff'
     return response
 
+
+
+@app.route("/logout")
+def logout():
+    auth_token = flask.request.cookies.get('token')
+    if auth_token is not None:
+        db = OurDataBase()
+        users = db["Users"]
+        token_hash = hash_token(auth_token)
+        users.update_one({"token": token_hash}, {"$set": {"token": None, "expires": None}})
+        db.close()
+    resp = flask.redirect("/")
+    resp.set_cookie('token', '', expires=0)
+    return resp
+
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=False)
