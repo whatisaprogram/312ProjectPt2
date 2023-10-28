@@ -411,10 +411,10 @@ def logout():
         db = OurDataBase()
         users = db["Users"]
         token_hash = hash_token(auth_token)
-        users.update_one({"token": token_hash}, {"$set": {"token": None, "expires": None}})
+        users.update_one({"token": token_hash}, {"$set": {"token": None, "expires": current_timestamp()}}, upsert=False)
         db.close()
     resp = flask.redirect("/")
-    resp.set_cookie('token', '', expires=0)
+    resp.delete_cookie('token')
     return resp
 
 
