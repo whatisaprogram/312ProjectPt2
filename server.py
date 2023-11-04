@@ -326,19 +326,30 @@ def create_post():
             socketio.disconnect()
             return
         #retrieve the username from the Flask-SocketIO session
+        username = session.get('username')
+        #If the session does not contain a username, the connection is unauthorized
+        if not username:
+            socketio.disconnect()
+            return
+        socketio.emit('auth',True, namespace='/posts')
+
+    @socketio.on('new post', namespace='/posts')
+    def handle_new_post():
+        emit('new post', broadcast=True)
+
+   socketio.emit('new post', namespace='/posts')
+   # Redirect to the home page after creating the post
+   resp.status = 302
+   resp.headers['Location'] = "/"
+   resp.headers['X-Content-Type-Options'] = 'nosniff'
+   return resp
+
+@app.post("/answer")
+####
 
 
 
-    # Redirect to the home page after creating the post
-    resp.status = 302
-    resp.headers['Location'] = "/"
-    resp.headers['X-Content-Type-Options'] = 'nosniff'
-    return resp
-
-
-
-
-
+####
 
 @app.route("/chat-history", methods=["GET"])
 def chat_history():
@@ -350,4 +361,4 @@ def chat_history():
 
 
 if __name__ == "__main__":
-   app.run(host="0.0.0.0", port=8080, debug=False)
+   socketio.run(host="0.0.0.0", port=8080, debug=False) # Socket IO run initialization with app and port being passed.
