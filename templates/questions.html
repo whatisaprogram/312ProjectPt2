@@ -1,0 +1,56 @@
+<!doctype html>
+<script src="/public/stuff.js"></script>
+<title>{% block title %}{% endblock %}Not-Tophat</title>
+<link rel="stylesheet" href="{{ url_for('send_static_file', file='style.css') }}">
+<div class="main">
+<section class="content">
+  <h1>Not-Tophat</h1>
+  <ul>
+    {% if user != None %}
+      {% for question in questions %}
+        <div class = "bad" id="{{ question['id'] }}">
+            <p><img src="{{ question['imgurl'] }}"/></p>
+            <p>ID: {{ question['id'] }}</p>
+            <p>Title: {{ question["title"] }}</p>
+            <p>Desc: {{ question["description"] }}</p>
+            <p>Meth: {{ question["method"] }}</p>
+            <form id=" {{ question['id'] }}q">
+                <label for="{{ question['id'] }}a">Your Answer</label>
+                <input id="{{ question['id'] }}a" type="text" required>
+                <input onClick=submitAnswer(this) type="button" value="Submit">
+            </form>
+            <div class="sweaty"></div>
+        </div>
+      {% endfor %}
+      <p>Post a question!</p>
+      <p>Image upload:</p>
+      <div id="current-image" class="bad"><img src="/public/image/kitten.jpg"></div>
+      <form id="image-form">
+            <br/>
+            <label for="form-file">Change profile picture: </label>
+            <input id="form-file" type="file" name="upload">
+            <br/>
+            <input type="button" value="Submit" onClick=uploadImage()>
+        </form>
+      <p>Other stuff:</p>
+        <form id="aform">
+            <label for="title">Question:</label>
+            <input type="text" id="title" required>
+            <br>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+            <br>
+            <label for="method">Method:</label>
+            <input type="text" id="method" required>
+            <br>
+            <label for="answers">Answers:</label>
+            <textarea id="answers" rows="4" required></textarea>
+            <br>
+            <input onClick=submitForm() type="button" value="Submit">
+        </form>
+    {% else %}
+      <li> GET OUTTA HERE </li>
+    {% endif %}
+  </ul>
+</section>
+</div>

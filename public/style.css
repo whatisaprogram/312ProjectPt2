@@ -121,4 +121,23 @@ img.post {
 
 .button_like {background-color: #D3D3D3;}
 
+.bad img{width: 200px; height: auto;}
+
+.content ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+.main{
+    display: flex;
+    justify-content: center;
+}
+
+.content {
+    margin:auto;
+    display:flex;
+    flex-direction: column;
+}
 

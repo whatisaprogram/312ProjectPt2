@@ -16,11 +16,22 @@ from flask import request, send_file
 from flask import Response
 from flask import render_template
 from markupsafe import escape
+import os
+from flask import redirect, url_for
+from werkzeug.utils import secure_filename
+from util.increment_question_id import add_question, get_all_questions
+from util.answer_handling import check_answer
+
+
 
 app = Flask(__name__)
+#file setup; thank you flask documentation for this
+UPLOAD_FOLDER = './public/image/uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 # for easy switching between local and docker
-clientname = "mongo"
-#clientname = "localhost"
+#clientname = "mongo"
+clientname = "localhost"
 dbname = "cse312"
 
 
@@ -36,7 +47,7 @@ class OurDataBase:
         self.db = self.mongo_client[dbname]
 
     def __getitem__(self, key):
-        return self.db[key]  # changed by Zuhra to be able to add a new collection before_it_was->["key"]
+        return self.db[key]
 
     def close(self):
         self.mongo_client.close()
@@ -69,8 +80,14 @@ def user_authenticated():
         token_hash = hash_token(auth_token)
         user = users.find_one({"token": token_hash})
         if user is not None:
-            return user["username"]
+            expires = user["expires"]
+            if expires > current_timestamp():
+                return user["username"]
     return None
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS, filename.rsplit('.', 1)[1].lower()
 
 
 @app.get("/")
@@ -78,7 +95,7 @@ def site_root():
     user = user_authenticated()
     if user:  # If user is authenticated
         # Redirect to a dashboard or main page
-        response = flask.redirect("/dashboard")
+        response = flask.redirect(url_for('all_questions'))
         response.headers["X-Content-Type-Options"] = "nosniff"
         return response
     else:  # If user is not authenticated, show the login page
@@ -98,6 +115,14 @@ def guest_login():
     return resp
 
 
+@app.route("/questions")
+def all_questions():
+    user = user_authenticated()
+    db = OurDataBase()
+    questions = get_all_questions(db)
+    db.close()
+    return render_template("questions.html", user=user, questions=questions)
+
 @app.route("/dashboard")
 def dashboard():
     user = user_authenticated()
@@ -112,6 +137,7 @@ def dashboard():
 
 @app.get("/public/<file>")
 def send_static_file(file):
+    file = secure_filename(file)
     exists = os.path.exists("./public/" + file)
     status = 200
     if not exists:
@@ -140,9 +166,40 @@ def send_static_file(file):
 
     return resp
 
+@app.get("/public/image/uploads/<file>")
+def send_uploaded_file(file):
+    file = secure_filename(file)
+    exists = os.path.exists("./public/image/uploads/" + file)
+    status = 200
+    if not exists:
+        content = "ERROR 404: FILE NOT FOUND"
+        status = 404
+    else:
+        with open("./public/image/uploads/" + file, 'rb') as f:
+            content = f.read()
+
+    resp = flask.Response(status=status)
+    resp.data = content
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
+
+    if status != 200:
+        return resp
+
+    fileends = {"html": "text/html; charset = utf8",
+                "css": "text/css; charset = utf8",
+                "js": "text/javascript; charset = utf8",
+                "png": "image/png",
+                "": "text/plain"}
+    contenttype = file.split(".")[-1]
+
+    if contenttype in fileends:
+        resp.headers['Content-Type'] = fileends[contenttype]
+
+    return resp
 
 @app.get("/public/image/<file>")
 def send_image_file(file):
+    file = secure_filename(file)
     exists = os.path.exists("./public/image/" + file)
     status = 200
     if not exists:
@@ -170,6 +227,7 @@ def send_image_file(file):
         resp.headers['Content-Type'] = fileends[contenttype]
 
     return resp
+
 
 
 @app.get("/visit-counter")
@@ -340,7 +398,6 @@ def create_post():
     collection = posts.find({})
     for i in collection:
         print(i)
-
     db.close()
 
     # Redirect to the home page after creating the post
@@ -401,6 +458,95 @@ def like():
     response.headers['Location'] = "/"
     response.headers['X-Content-Type-Options'] = 'nosniff'
     return response
+
+@app.route("/logout")
+def logout():
+    auth_token = flask.request.cookies.get('token')
+    if auth_token is not None:
+        db = OurDataBase()
+        users = db["Users"]
+        token_hash = hash_token(auth_token)
+        users.update_one({"token": token_hash}, {"$set": {"token": None, "expires": current_timestamp()}}, upsert=False)
+        db.close()
+    resp = flask.redirect("/")
+    resp.delete_cookie('token')
+    return resp
+
+
+@app.route("/upload", methods=["POST"])
+def upload_image():
+    toRet = {"success": False, "url": "/public/image/cat.jpg"}
+    user = user_authenticated()
+    if user is None:
+        return jsonify(toRet)
+    if 'image' not in request.files:
+        #invalid request
+        return jsonify(toRet)
+    file = request.files['image']
+    if file.filename == '':
+        # no file chosen
+        return jsonify(toRet)
+    if file and allowed_file(file.filename)[0]:
+        db = OurDataBase()
+        images = db["userimages"]
+        found = images.find_one({"username": user})
+        if found is None:
+            images.insert_one({"username": user, "counter": 1})
+            imgname = user + "_" + str(1) + "." + allowed_file(file.filename)[1]
+        else:
+            current_count = images.find_one({"username": user})
+            current_count = current_count["counter"]
+            current_count += 1
+            newvalues = {"$set": {"counter": current_count}}
+            images.update_one({"username": user}, newvalues)
+            imgname = user + "_" + str(current_count) + "." + allowed_file(file.filename)[1]
+
+        db.close()
+
+        save_path = app.config['UPLOAD_FOLDER'] + "/" + imgname
+        file.save(save_path)
+        toRet["success"] = True
+        toRet["url"] = "/public/image/uploads/" + imgname
+        bloby = jsonify(toRet)
+        return bloby
+
+
+@app.route("/post-question", methods=["POST"])
+def post_question():
+
+    user = user_authenticated()
+
+    if user is not None:
+        data = request.get_json()
+        if data is None:
+            return redirect("/")
+        expected_fields = ["title", "description", "method", "answers", "imgurl"]
+        for field in expected_fields:
+            if field not in data:
+                return redirect("/")
+
+        #else things are looking good
+        db = OurDataBase()
+        question_id = add_question(db, data, user)
+        db.close()
+
+    return redirect("/")
+
+@app.route("/post-answer", methods=["POST"])
+def post_answer():
+    user = user_authenticated()
+    if user is not None:
+        data = request.get_json()
+        if data is None or "answer" not in data or "id" not in data:
+            return redirect("/")
+        else:
+            db = OurDataBase()
+            toRet = {"success": check_answer(int(data["id"]), data["answer"], user, db)}
+            db.close()
+            return jsonify(toRet)
+    return redirect("/")
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=False)
