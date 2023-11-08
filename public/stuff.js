@@ -66,6 +66,7 @@ function submitAnswer(element){
     }).catch(error => {
         console.error(error);
     });
+    // document.getElementById("submit_answer").disabled=true
 }
 
 function getUrl(){

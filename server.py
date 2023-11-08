@@ -23,15 +23,14 @@ from util.increment_question_id import add_question, get_all_questions
 from util.answer_handling import check_answer
 
 
-
 app = Flask(__name__)
 #file setup; thank you flask documentation for this
 UPLOAD_FOLDER = './public/image/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # for easy switching between local and docker
-#clientname = "mongo"
-clientname = "localhost"
+clientname = "mongo"
+# clientname = "localhost"
 dbname = "cse312"
 
 
@@ -529,7 +528,6 @@ def post_question():
         db = OurDataBase()
         question_id = add_question(db, data, user)
         db.close()
-
     return redirect("/")
 
 @app.route("/post-answer", methods=["POST"])
@@ -545,7 +543,6 @@ def post_answer():
             db.close()
             return jsonify(toRet)
     return redirect("/")
-
 
 
 if __name__ == "__main__":

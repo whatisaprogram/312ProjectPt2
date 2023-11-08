@@ -118,7 +118,6 @@ img.post {
     vertical-align: middle; 
 }
 
-
 .button_like {background-color: #D3D3D3;}
 
 .bad img{width: 200px; height: auto;}
@@ -141,3 +140,18 @@ img.post {
     flex-direction: column;
 }
 
+
+#not_tophat_quiz {
+  border: 1px solid black;
+  padding: 15px;
+}
+
+.bad{
+  border: 1px solid black;
+  padding: 15px;
+}
+
+.verticalLine {
+    border-right: thick solid green;
+    border-left: thick solid green;
+}
