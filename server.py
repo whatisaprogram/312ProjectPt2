@@ -15,7 +15,6 @@ from flask import Response
 from flask import render_template
 from markupsafe import escape
 from werkzeug.utils import secure_filename
-from database import OurDataBase
 from flask_socketio import SocketIO, emit, send
 
 app = Flask(__name__)
@@ -23,12 +22,32 @@ app.secret_key = "secret key"
 UPLOAD_FOLDER = 'public/image/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+# for easy switching between local and docker
+# clientname = "mongo"
+clientname = "localhost"
+dbname = "cse312"
+
+
 socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*", transports=['websocket']) # Socket IO Initialization
 
 # for easy switching between local and docker
 def add_no_sniff(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
-    
+
+class OurDataBase:
+    def __init__(self, client_name=clientname, db_name=dbname):
+        self.clientname = client_name
+        self.dbname = db_name
+        self.mongo_client = pymongo.MongoClient(client_name)
+        self.db = self.mongo_client[dbname]
+
+    def __getitem__(self, key):
+        return self.db[key]
+
+    def close(self):
+        self.mongo_client.close()
+
+
 def hash_token(token_as_string):
     return hashlib.sha256(token_as_string.encode()).hexdigest()
 
@@ -337,16 +356,15 @@ def create_post():
     def handle_new_post():
         emit('new post', broadcast=True)
 
-   socketio.emit('new post', namespace='/posts')
-   # Redirect to the home page after creating the post
-   resp.status = 302
-   resp.headers['Location'] = "/"
-   resp.headers['X-Content-Type-Options'] = 'nosniff'
-   return resp
+        socketio.emit('new post', namespace='/posts')
+        # Redirect to the home page after creating the post
+        resp.status = 302
+        resp.headers['Location'] = "/"
+        resp.headers['X-Content-Type-Options'] = 'nosniff'
+        return resp
 
 @app.post("/answer")
 ####
-
 
 
 ####
@@ -361,4 +379,4 @@ def chat_history():
 
 
 if __name__ == "__main__":
-   socketio.run(host="0.0.0.0", port=8080, debug=False) # Socket IO run initialization with app and port being passed.
+   app.run(host="0.0.0.0", port=8080, debug=False) # Socket IO run initialization with app and port being passed.
