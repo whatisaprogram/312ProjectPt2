@@ -1,0 +1,29 @@
+<!doctype html>
+<div class="verticalLine">
+  <script src="/public/stuff.js"></script>
+  <title>{% block title %}{% endblock %}Your Not-Tophat Gradebook</title>
+  <link rel="stylesheet" href="{{ url_for('send_static_file', file='style.css') }}">
+  <div class="main">
+    <section class="content">
+      <h1 id="not_tophat_quiz">Welcome to Your Gradebook!!</h1>
+      <p> These are your grades to the questions you've answered</p>
+      <br>
+      <ul>
+        {% if user != None %}
+          {% for question in questions %}
+          <div class = "bad" id="{{ question[0]['id'] }}">
+            <p>Question number: {{ question[0]['id'] }}</p>
+            <p>Title: {{ question[0]["title"] }}</p>
+            <p>Question: {{ question[0]["description"] }}</p>
+            <p>Grade: {{ question[1] }}</p>
+
+            <div class="sweaty"></div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <li> You must login to view your gradebook</li>
+        {% endif %}
+      </ul>
+    </section>
+  </div>
+</div>

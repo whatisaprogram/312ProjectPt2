@@ -17,7 +17,7 @@ def increment_question_id(a_db_instance):
 def add_question(a_db_instance, a_dictionary, username):
     questions = a_db_instance["questions"]
     new_id = increment_question_id(a_db_instance)
-    toinsert = {"id": new_id, "username": "username", "title": a_dictionary["title"],
+    toinsert = {"id": new_id, "username": username, "title": a_dictionary["title"],
                 "description": a_dictionary["description"],
                 "method": a_dictionary["method"], "answers": a_dictionary["answers"], "imgurl": a_dictionary["imgurl"]}
     questions.insert_one(toinsert)

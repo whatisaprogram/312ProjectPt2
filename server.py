@@ -227,8 +227,6 @@ def send_image_file(file):
 
     return resp
 
-
-
 @app.get("/visit-counter")
 def welcome_to_the_jungle():
     resp = flask.Response()
@@ -276,6 +274,11 @@ def join_us_spongebob():
     resp.headers['Content-Type'] = "text/plain"
     resp.headers['Location'] = "/"
 
+    #For objective 3 make a collection for the registered users gradebook
+    db = OurDataBase()
+    grades = db.__getitem__("Gradebook")
+    grades.insert_one({"User": username, "Questions": {}})
+    db.close()
     return resp
 
 
@@ -456,6 +459,7 @@ def like():
     response.status = 302
     response.headers['Location'] = "/"
     response.headers['X-Content-Type-Options'] = 'nosniff'
+    db.close()
     return response
 
 @app.route("/logout")
@@ -527,6 +531,7 @@ def post_question():
         #else things are looking good
         db = OurDataBase()
         question_id = add_question(db, data, user)
+
         db.close()
     return redirect("/")
 
@@ -540,6 +545,18 @@ def post_answer():
         else:
             db = OurDataBase()
             toRet = {"success": check_answer(int(data["id"]), data["answer"], user, db)}
+
+            #Updating Gradebook collection for Obj3
+            grades = db["Gradebook"].find_one({"User": user})
+            grades = grades["Questions"]
+            grades[str(data["id"])] = 0
+            db["Gradebook"].update_one({"User": user}, {"$set": {"Questions": grades}})
+            if check_answer(int(data["id"]), data["answer"], user, db):
+                grades[str(data["id"])] = 1
+                db["Gradebook"].update_one({"User": user}, {"$set": {"Questions": grades}})
+            #test = db["Gradebook"].find({})
+            #for i in test:
+            #    print(i)
             db.close()
             return jsonify(toRet)
     return redirect("/")
