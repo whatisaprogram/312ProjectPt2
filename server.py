@@ -122,6 +122,47 @@ def all_questions():
     db.close()
     return render_template("questions.html", user=user, questions=questions)
 
+#Making separate page for gradebook for Obj3
+@app.route("/gradebook")
+def gradebook():
+    user = user_authenticated()
+    answered = []
+    if user:
+        db = OurDataBase()
+        questions = get_all_questions(db)
+        grades = db["Gradebook"].find_one({"User": user})
+        grades = grades["Questions"]
+        for i in questions:
+            if grades.get(str(i["id"]), -1) != -1:
+                answered.append([i, str(grades[str(i["id"])]) + "/1"])
+        db.close()
+    return render_template("gradebook.html", user=user, questions=answered)
+
+#Making separate page for admin gradebook for Obj3
+@app.route("/admin_gradebook")
+def admin_gradebook():
+    user = user_authenticated()
+    answered = []
+    if user:
+        db = OurDataBase()
+        questions = get_all_questions(db)
+        for i in questions:
+            grades = db["Gradebook"].find({})
+            total = 0
+            actual = 0
+            if user == i["username"]:
+                for x in grades:
+                    temp = x["Questions"]
+                    print(temp)
+                    if temp.get(str(i["id"]), -1) != -1:
+                        total += 1
+                        actual += int(temp[str(i["id"])])
+                print("total: ", total, "actual: ", actual)
+                answered.append([i, str(actual) + "/" + str(total)])
+        db.close()
+    return render_template("admin_gradebook.html", user=user, questions=answered)
+
+
 @app.route("/dashboard")
 def dashboard():
     user = user_authenticated()

@@ -9,9 +9,9 @@ function uploadImage(){
         method: 'POST',
         body: formData,
     })
-    .then((response) => {
-        return response.json()
-    }).then(response => {
+        .then((response) => {
+            return response.json()
+        }).then(response => {
         toRet = response;
         url = toRet["url"];
         let currentImage = document.getElementById("current-image");
@@ -75,4 +75,3 @@ function getUrl(){
     }
     return url;
 }
-

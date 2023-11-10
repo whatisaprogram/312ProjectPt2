@@ -60,19 +60,19 @@ img.post {
 
 .user-info {
     position: absolute;
-    top: 15px;   
-    right: 15px; 
+    top: 15px;
+    right: 15px;
 }
 
 #username {
-    background-color: #e74c3c; 
-    color: #fff;  
+    background-color: #e74c3c;
+    color: #fff;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     font-size: 16px;
-    cursor: pointer; 
-    transition: background-color 0.3s; 
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 
@@ -94,28 +94,28 @@ img.post {
 }
 
 .button_like {
-    background-color: transparent; 
-    border: none; 
-    color: #e74c3c; 
+    background-color: transparent;
+    border: none;
+    color: #e74c3c;
     font-size: 18px;
     cursor: pointer;
     margin-right: 5px;
     transition: color 0.3s;
-    padding: 0; 
-    outline: none; 
+    padding: 0;
+    outline: none;
 }
 
 .button_like:hover {
-    color: #c0392b; 
+    color: #c0392b;
 }
 
 .button_like:focus {
-    outline: none; 
-    box-shadow: none; 
+    outline: none;
+    box-shadow: none;
 }
 
 #like_count {
-    vertical-align: middle; 
+    vertical-align: middle;
 }
 
 .button_like {background-color: #D3D3D3;}
@@ -142,13 +142,13 @@ img.post {
 
 
 #not_tophat_quiz {
-  border: 1px solid black;
-  padding: 15px;
+    border: 1px solid black;
+    padding: 15px;
 }
 
 .bad{
-  border: 1px solid black;
-  padding: 15px;
+    border: 1px solid black;
+    padding: 15px;
 }
 
 .verticalLine {

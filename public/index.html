@@ -8,51 +8,51 @@
 
 <body onload="welcome();">
 
-    <div class="header">
-        <div class="image_div">
-            <img src="public/image/header.jpg"/>
-        </div>
-
-        <div class="welcome-section">
-            <p id="paragraph">
-            </p>
-        </div>
-
-        <div class="user-info">
-            <button id="username">Subscribe</button>
-        </div>
+<div class="header">
+    <div class="image_div">
+        <img src="public/image/header.jpg"/>
     </div>
 
-
-    <div class="contents">
-        <div class="chat">
-            <h2 id="post_history">Post History</h2>
-                <div id="chat_box">
-                </div>
-
-
-                <div class="post-form">
-                    <form action="/create-post" method="post" enctype="application/x-www-form-urlencoded">
-                        <label for="post-title">Title:</label>
-                        <input id="post-title" type="text" name="title">
-                        <br>
-                        <label for="post-description">Description:</label>
-                        <textarea id="post-description" name="description" rows="4" cols="50"></textarea>
-                        <br>
-                        <input type="submit" value="Create Post">
-                    </form>
-                </div>
-
-        </div>
+    <div class="welcome-section">
+        <p id="paragraph">
+        </p>
     </div>
 
-    <script src="/public/functions.js"></script>
+    <div class="user-info">
+        <button id="username">Subscribe</button>
+    </div>
+</div>
 
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            fetchAndDisplayExistingPosts();
-        });
-    </script> -->
+
+<div class="contents">
+    <div class="chat">
+        <h2 id="post_history">Post History</h2>
+        <div id="chat_box">
+        </div>
+
+
+        <div class="post-form">
+            <form action="/create-post" method="post" enctype="application/x-www-form-urlencoded">
+                <label for="post-title">Title:</label>
+                <input id="post-title" type="text" name="title">
+                <br>
+                <label for="post-description">Description:</label>
+                <textarea id="post-description" name="description" rows="4" cols="50"></textarea>
+                <br>
+                <input type="submit" value="Create Post">
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script src="/public/functions.js"></script>
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetchAndDisplayExistingPosts();
+    });
+</script> -->
 </body>
 
 </html>

@@ -1,63 +1,76 @@
 <!doctype html>
 <div class="verticalLine">
-<script src="/public/stuff.js"></script>
-<title>{% block title %}{% endblock %}Not-Tophat</title>
-<link rel="stylesheet" href="{{ url_for('send_static_file', file='style.css') }}">
-<div class="main">
-<section class="content">
-  <h1 id="not_tophat_quiz">Welcome to Not-Tophat Quiz taking app!!</h1>
-  <ul>
-    {% if user != None %}
-      {% for question in questions %}
-        <div class = "bad" id="{{ question['id'] }}">
-            <p><img src="{{ question['imgurl'] }}"/></p>
-            <p>Question number: {{ question['id'] }}</p>
-            <p>Title: {{ question["title"] }}</p>
-            <p>Question: {{ question["description"] }}</p>
-            <p>Answering Method: {{ question["method"] }}</p>
-            <form id=" {{ question['id'] }}q">
-                <label for="{{ question['id'] }}a">Your Answer</label>
-                <input id="{{ question['id'] }}a" type="text" required>
-                <input onClick=submitAnswer(this) type="button" value="Submit">
-            </form>
-            <div class="sweaty"></div>
-        </div>
-      {% endfor %}
-      <br>
-      <br>
-      <hr>
-      <p style="font-weight: bolder"> Post a question with an image!</p>
-      <div id="current-image" class="bad"><img src="/public/image/kitten.jpg"></div>
-      <form id="image-form">
-            <br/>
-            <label for="form-file">Customize the picture according to your question: </label>
-            <input id="form-file" type="file" name="upload">
-            <br/>
-            <input type="button" value="Submit" onClick=uploadImage()>
-        </form>
-      <p>Other stuff:</p>
-        <form id="aform">
-            <label for="title">Question:</label>
-            <span><input type="text" id="title" required placeholder="Enter your input"/></span>
-            <br>
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" rows="4" required></textarea>
-            <br>
-            <br>
-            <label for="method">Answering Method:</label>
-            <span><input type="text" id="method" required placeholder="Enter your input"></span>
-            <br>
-            <br>
-            <label for="answers">Answers:</label>
-            <textarea id="answers" rows="4" required></textarea>
-            <br>
-            <br>
-            <input id="submit_answer" onClick=submitForm() type="button" value="Submit">
-        </form>
-    {% else %}
-      <li> GET OUTTA HERE </li>
-    {% endif %}
-  </ul>
-</section>
-</div>
+    <script src="/public/stuff.js"></script>
+    <title>{% block title %}{% endblock %}Not-Tophat</title>
+    <link rel="stylesheet" href="{{ url_for('send_static_file', file='style.css') }}">
+    <div class="main">
+        <section class="content">
+            <h1 id="not_tophat_quiz">Welcome to Not-Tophat Quiz taking app!!</h1>
+            <ul>
+                {% if user != None %}
+                {% for question in questions %}
+                <div class = "bad" id="{{ question['id'] }}">
+                    <p><img src="{{ question['imgurl'] }}"/></p>
+                    <p>Question number: {{ question['id'] }}</p>
+                    <p>Title: {{ question["title"] }}</p>
+                    <p>Question: {{ question["description"] }}</p>
+                    <p>Answering Method: {{ question["method"] }}</p>
+                    <form id=" {{ question['id'] }}q">
+                        <label for="{{ question['id'] }}a">Your Answer</label>
+                        <input id="{{ question['id'] }}a" type="text" required>
+                        <input onClick=submitAnswer(this) type="button" value="Submit">
+                    </form>
+                    <div class="sweaty"></div>
+                </div>
+                {% endfor %}
+                <br>
+                <br>
+                <hr>
+                <p style="font-weight: bolder"> Post a question with an image!</p>
+                <div id="current-image" class="bad"><img src="/public/image/kitten.jpg"></div>
+                <form id="image-form">
+                    <br/>
+                    <label for="form-file">Customize the picture according to your question: </label>
+                    <input id="form-file" type="file" name="upload">
+                    <br/>
+                    <input type="button" value="Submit" onClick=uploadImage()>
+                </form>
+                <p>Other stuff:</p>
+                <form id="aform">
+                    <label for="title">Question:</label>
+                    <span><input type="text" id="title" required placeholder="Enter your input"/></span>
+                    <br>
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+                    <br>
+                    <br>
+                    <label for="method">Answering Method:</label>
+                    <span><input type="text" id="method" required placeholder="Enter your input"></span>
+                    <br>
+                    <br>
+                    <label for="answers">Answers:</label>
+                    <textarea id="answers" rows="4" required></textarea>
+                    <br>
+                    <br>
+                    <input id="submit_answer" onClick=submitForm() type="button" value="Submit">
+                </form>
+                <br>
+                <div class="view-grades">
+                    <form action="/gradebook" method="get" enctype="application/x-www-form-urlencoded">
+                        <input type="submit" value="View grades">
+
+                    </form>
+                </div>
+                <br>
+                <div class="admin-grades">
+                    <form action="/admin_gradebook" method="get" enctype="application/x-www-form-urlencoded">
+                        <input type="submit" value="View admin grades">
+
+                    </form>
+                {% else %}
+                <li> GET OUTTA HERE </li>
+                {% endif %}
+            </ul>
+        </section>
+    </div>
 </div>

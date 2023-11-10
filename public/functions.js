@@ -125,5 +125,3 @@ function welcome() {
     updateChat();
     setInterval(updateChat, 2000);
 }
-
-
