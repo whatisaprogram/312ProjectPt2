@@ -1,22 +1,17 @@
-from util.request import Request
-import string
+from flask import Flask, jsonify, make_response, request, session, copy_current_request_context
+from database import OurDataBase
+from flask_socketio import SocketIO, emit
 from datetime import datetime, timezone, timedelta
-import pymongo
-import json
 import html
 import bcrypt
 import secrets
 import hashlib
-from flask import Flask, jsonify, make_response, request, session, copy_current_request_context
+from flask import Flask, jsonify
 import flask
-import os
-from flask import request, send_file
-from flask import Response
-from flask import render_template
+from flask import request
 from markupsafe import escape
+import os
 from werkzeug.utils import secure_filename
-from database import OurDataBase
-from flask_socketio import SocketIO, emit, send
 
 app = Flask(__name__)
 app.secret_key = "secret key"
@@ -58,7 +53,7 @@ def user_authenticated():
         users = db["Users"]
         token_hash = hash_token(auth_token)
         user = users.find_one({"token": token_hash})
-        if user is not None:
+        if user is not None:  # wrong
             return user["username"]
     return None
 
@@ -68,7 +63,7 @@ def site_root():
     user = user_authenticated()
     if user:  # If user is authenticated
         # Redirect to a dashboard or main page
-        response = flask.redirect("/dashboard")
+        response = flask.redirect("/dashboard") # wrong
         response.headers["X-Content-Type-Options"] = "nosniff"
         return response
     else:  # If user is not authenticated, show the login page
@@ -202,6 +197,12 @@ def join_us_spongebob():
     resp.data = bodymessage
     resp.headers['Content-Type'] = "text/plain"
     resp.headers['Location'] = "/"
+
+    #For objective 3 make a collection for the registered users gradebook
+    db = OurDataBase()
+    grades = db.__getitem__("Gradebook")
+    grades.insert_one({"User": username, "Questions": {}})
+    db.close()
     return resp
 
 
@@ -232,6 +233,7 @@ def show_me_your_papers():
             resp.headers['Location'] = "/"
     else:
         bodymessage = "Incorrect username or password"
+
     db.close()
     add_no_sniff(resp)
     resp.status = 301
@@ -372,9 +374,9 @@ def answer():
         resp.status = 401  # Unauthorized
         resp.data = "You need to be logged in to create a post."
         return resp
-    html.escape(req.form.get("answer_text"))
+    answer = html.escape(req.form.get("answer_text"))
     post_id = req.form.get("post_id")
-    print("post_idpost_idpost_idpost_id", post_id)
+    print("post_idpost_idpost_idpost_id",post_id)
     # Get the username of the authenticated user
     db = OurDataBase()
     users = db["Users"]
@@ -388,11 +390,25 @@ def answer():
 
     username = user["username"]
     posts = db["Posts"]
-    old_value = posts.find_one({"post_id": post_id})["submited_user"]
+    old_value = posts.find_one({"post_id":post_id})["submited_users"]
     new_data = {"$set": {"submited_users": old_value + "," + username}}
     # create a unique post ID
     posts.update_one({"post_id": post_id}, new_data)
+
+    # # Updating Gradebook collection for Obj3
+    # grades = db["Gradebook"].find_one({"User": user})
+    # grades = grades["Questions"]
+    # grades[str(data["id"])] = 0
+    # db["Gradebook"].update_one({"User": user}, {"$set": {"Questions": grades}})
+    # if check_answer(int(data["id"]), data["answer"], user, db):
+    #     grades[str(data["id"])] = 1
+    #     db["Gradebook"].update_one({"User": user}, {"$set": {"Questions": grades}})
+    # # test = db["Gradebook"].find({})
+    # # for i in test:
+    # #    print(i)
+
     db.close()
+
 
     # Socket IO Events - New Answer Submission
     @socketio.on('connect', namespace='/answers')
@@ -407,11 +423,11 @@ def answer():
         if not username:
             socketio.disconnect()
             return
-        socketio.emit('auth',True, namespace='/answers')
+        socketio.emit('auth', True, namespace='/answers')
 
-        @socketio.on('new answer', namespace='/answers')
-        def handle_new_answer():
-            emit('new answer',broadcast=True)
+    @socketio.on('new answer', namespace='/answers')
+    def handle_new_answer():
+        emit('new answer', broadcast=True)
 
         socketio.emit('new answer', namespace='/answers')
         # Redirect to the home page after creating the post
@@ -428,6 +444,62 @@ def chat_history():
     existing_posts = list(posts.find({}, {"_id": 0}))
     db.close()
     return jsonify(existing_posts)
+
+# Like for Obj3
+@app.route("/like", methods=["POST"])
+def like():
+    data = request.get_json()
+    current_like = data.get('like')
+    post_id = data.get('post_id')
+    # total = int(data.get('total'))
+    response = flask.Response()
+    db = OurDataBase()
+    liked_status = db.__getitem__("Status")
+    posts = db.__getitem__("Posts")
+    total = posts.find_one({"post_id": post_id})
+    total = int(total["total"])
+
+    user = user_authenticated()
+    if user is not None:
+        status = liked_status.find_one({"username": user, "post_id": post_id})
+        if status is None:
+            liked_status.insert_one({"username": user, "status": "1", "post_id": post_id})
+            status = liked_status.find_one({"username": user, "post_id": post_id})
+
+        if current_like == "0" and status["status"] != "1":
+            posts.update_one({"post_id": post_id}, {"$set": {"total": str(total - 1)}})
+            liked_status.update_one({"username": user, "post_id": post_id}, {"$set": {"status": "1"}})
+
+        elif current_like == "1" and status["status"] != "0":
+            posts.update_one({"post_id": post_id}, {"$set": {"total": str(total + 1)}})
+            liked_status.update_one({"username": user, "post_id": post_id}, {"$set": {"status": "0"}})
+
+        elif current_like == "0" and status["status"] == "1":
+            posts.update_one({"post_id": post_id}, {"$set": {"total": str(total + 1)}})
+            liked_status.update_one({"username": user, "post_id": post_id}, {"$set": {"status": "0"}})
+
+        elif current_like == "1" and status["status"] == "0":
+            posts.update_one({"post_id": post_id}, {"$set": {"total": str(total - 1)}})
+            liked_status.update_one({"username": user, "post_id": post_id}, {"$set": {"status": "1"}})
+
+    response.status = 302
+    response.headers['Location'] = "/"
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    db.close()
+    return response
+
+@app.route("/logout")
+def logout():
+    auth_token = flask.request.cookies.get('token')
+    if auth_token is not None:
+        db = OurDataBase()
+        users = db["Users"]
+        token_hash = hash_token(auth_token)
+        users.update_one({"token": token_hash}, {"$set": {"token": None, "expires": current_timestamp()}}, upsert=False)
+        db.close()
+    resp = flask.redirect("/")
+    resp.delete_cookie('token')
+    return resp
 
 
 if __name__ == "__main__":
