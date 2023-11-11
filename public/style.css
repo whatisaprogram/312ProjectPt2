@@ -8,14 +8,32 @@ body, html {
     height: 100%;
 }
 
-.image_div {
-    height: 95%;
-}
+img {
+    --s: 15px;  /* size of the frame */
+    --b: 2px;   /* border thickness */
+    --w: 200px; /* width of the image */
+    --c: #564646;
+    
+    width: var(--w);
+    aspect-ratio: 1;
+    object-fit: cover;
+    padding: calc(2*var(--s));
 
-img.post {
-    width: 170px;
-}
-
+  }
+  
+  .post {
+    margin: auto;
+    max-width: 600px;
+    border: 5px solid rgb(27, 17, 22);
+  }
+  .card {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: -1px;
+    border: 5px solid rgb(27, 17, 22);
+  }
 
 
 .contents {
@@ -25,8 +43,7 @@ img.post {
 }
 
 .chat {
-    width: 70%;
-    background-color: #146C94;
+    background-color: #559f89;
     padding: 20px;
 }
 
@@ -43,7 +60,7 @@ img.post {
 
 .user-list {
     width: 30%;
-    background-color: #19A7CE;
+    background-color: #83ceb7;
     padding: 20px;
 }
 
@@ -105,10 +122,67 @@ img.post {
 
 .button_like {background-color: #D3D3D3;}
 
+.contents {
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+.quiz {
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="file"] {
+    margin-bottom: 10px;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+#choices {
+    margin-bottom: 10px;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
 
 .topnav {
     overflow: hidden;
-    background-color: #c95151;
+    background-color: #065c4a;
 }
   
 .topnav a {
@@ -127,6 +201,6 @@ img.post {
   
 .topnav a.split {
     float: right;
-    background-color: #695fc2;
+    background-color: #004736;
     color: white;
 }

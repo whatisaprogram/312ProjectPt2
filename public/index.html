@@ -1,58 +1,57 @@
 <html>
-
 <head>
     <title>CSE312 Homework App</title>
     <link rel="stylesheet" type="text/css" href="/public/style.css" />
 </head>
-
-
 <body onload="welcome();">
     <div class="topnav">
-        <a class="active" id="username" href="#home"></a>
+        <a class="active" id="username" href=""></a>
         <a href="/logout" class="split">Logout</a>
     </div>
 
     <div class="header">
-        <div class="welcome-section">
-            <p id="paragraph">
-            </p>
-        </div>
-
         <div class="user-info">
             
         </div>
     </div>
-
-
+    <div class="chat">
+        <h2 id="post_history">Post History</h2>
+        <div id="chat_box"></div>
+    </div>
     <div class="contents">
-        <div class="chat">
-            <h2 id="post_history">Post History</h2>
-                <div id="chat_box">
-                </div>
-
-
-                <div class="post-form">
-                    <form action="/create-post" method="post" enctype="application/x-www-form-urlencoded">
-                        <label for="post-title">Title:</label>
-                        <input id="post-title" type="text" name="title">
-                        <br>
-                        <label for="post-description">Description:</label>
-                        <textarea id="post-description" name="description" rows="4" cols="50"></textarea>
-                        <br>
-                        <input type="submit" value="Create Post">
-                    </form>
-                </div>
-
+        <div class="quiz">
+            <h2>Create a Quiz Question</h2>
+            <div class="contents">
+                <form action="/create-post" method="POST" enctype="multipart/form-data">
+                    <label>Question Title:</label><br>
+                    <input type="text" name="title" required><br><br>
+                    <label>Question Description:</label><br>
+                    <textarea name="description" required></textarea><br><br>
+                    <label>Image (optional):</label><br>
+                    <input type="file" name="file"><br><br>
+                    <label>Answer Method:</label><br>
+                    <select name="answer_method" onchange="displayChoices(this.value)">
+                        <option value="radio" >Multiple Choice</option>
+                        <option value="text"selected>Open-ended Text</option>
+                    </select><br><br>
+                    <div id="choices"></div>
+                    <label >Correct Answer(s):</label><br>
+                    <input type="text" name="correct_answers" required><br><br>
+                    <input type="submit">
+                </form>
+            </div>
         </div>
     </div>
-
+    <script>
+        function displayChoices(value) {
+          var choicesDiv = document.getElementById("choices");
+          if (value === "radio") {
+            choicesDiv.innerHTML = "<label>Choices:</label><br><input type='text' name='choice1' required><br><input type='text' name='choice2' required><br><input type='text' name='choice3' required><br><input type='text' name='choice4' required><br><br>";
+          } else {
+            choicesDiv.innerHTML = "";
+          }
+        }
+        </script>
     <script src="/public/functions.js"></script>
-
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            fetchAndDisplayExistingPosts();
-        });
-    </script> -->
 </body>
-
 </html>
