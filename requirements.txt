@@ -4,3 +4,5 @@ Jinja2
 flask
 markupsafe
 waitress
+flask_socketio
+eventlet
