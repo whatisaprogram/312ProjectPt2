@@ -132,9 +132,4 @@ function welcome() {
     document.getElementById("paragraph").innerHTML += "<br/>You Social Media Feed! 😀";
     getUserName();
     updateChat();
-    const socket = io.connect('http://localhost:8080');
-    socket.on('connect', () => {
-     console.log('Connected to the WebSocket server');
-    });
-    // setInterval(updateChat, 4000);
 }

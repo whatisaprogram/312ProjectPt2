@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 clientname = "mongo"
-#clientname = "localhost"
+# clientname = "localhost"
 dbname = "cse312"
 
 class OurDataBase:
