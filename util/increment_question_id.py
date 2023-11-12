@@ -25,7 +25,7 @@ def add_question(a_db_instance, a_dictionary, username):
 
 
 def get_all_questions(db):
-    questions = db["questions"]
+    questions = db["Posts"]
     qs = questions.find()
     all_questions = []
     for q in qs:
