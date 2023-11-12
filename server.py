@@ -28,6 +28,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*", transports=['websocket'])  # Socket IO Initialization
 
+@socketio.on('connect')
+def connect():
+    print('Connected')
+
 # for easy switching between local and docker
 def add_no_sniff(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
