@@ -1,0 +1,177 @@
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+.my_image {
+    height: 100%;
+}
+
+.image_div {
+    height: 95%;
+}
+
+
+
+.header {
+    display: flex;
+    background-color: #F6F1F1;
+    color: black;
+    height: 17%;
+    align-items: center;
+}
+
+.contents {
+    display: flex;
+    justify-content: space-around;
+    height: 100%;
+}
+
+.chat {
+    background-color: #146C94;
+    padding: 20px;
+}
+
+#chat_box {
+    height: 50%;
+    overflow: scroll;
+    background-color: #F6F1F1;
+    color: black;
+}
+
+.post-form {
+    height: 30px;
+}
+
+.user-list {
+    width: 30%;
+    background-color: #19A7CE;
+    padding: 20px;
+}
+
+.header > div {
+    padding: 20px;
+}
+
+.user-info {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+#username {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+.button_like {
+    border: none;
+    color: black;
+    padding: 5px 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.post-form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.button_like {
+    background-color: transparent;
+    border: none;
+    color: #e74c3c;
+    font-size: 18px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: color 0.3s;
+    padding: 0;
+    outline: none;
+}
+
+.button_like:hover {
+    color: #c0392b;
+}
+
+.button_like:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+#like_count {
+    vertical-align: middle;
+}
+
+
+.button_like {background-color: #D3D3D3;}
+
+.contents {
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+.quiz {
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="file"] {
+    margin-bottom: 10px;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+#choices {
+    margin-bottom: 10px;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+
