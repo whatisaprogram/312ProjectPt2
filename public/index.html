@@ -1,28 +1,52 @@
 <html>
 <head>
-    <title>CSE312 Homework App</title>
+    <title>Top Quiz App</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <link rel="stylesheet" type="text/css" href="/public/style.css" />
 </head>
 <body onload="welcome();">
-<div class="header">
-    <div class="image_div">
-        <img src="public/image/header.jpg"/>
-    </div>
+    <nav id="navbar" class="">
+        <div class="nav-wrapper">
+          <div class="logo">
+            <a href="/" class="logo" style="text-decoration: none; color: black;">TOP Quiz</a>
+          </div>
+          <ul id="menu">
+            <li class="a-tag"> Welcome, <strong id="username">username</strong></li>
 
-    <div class="welcome-section">
-        <p id="paragraph">
-        </p>
-    </div>
+            <div class="dropdown">
+               <li><a><span>Grades</span></a></li>
+                <div class="dropdown-content">
+                    <a href="/gradebook">
+                        <div class="view-grades">
+                            <form action="/gradebook" method="get" enctype="application/x-www-form-urlencoded">
+                                <input type="submit" value="View grades">
+                            </form>
+                        </div>
+                    </a>
+                    <a href="/admin_gradebook">
+                        <div class="admin-grades">
+                            <form action="/admin_gradebook" method="get" enctype="application/x-www-form-urlencoded">
+                                <input type="submit" value="admin grades">
+                            </form>
+                    </div>
+                    </a>
+                </div>
+              </div>
+            <li><a href="/logout">Logout</a></li>
+            <li id="verification-status">Status: <strong id="verification-text">{{ 'Verified' if is_verified else 'Not Verified' }}</strong></li>
+            <a href="#" id="verify-email-link"    class="email" style="display: none;">Verify Email</a>
 
-    <div class="user-info">
-        <button id="username">Subscribe</button>
+
+          </ul>
+        </div>
+      </nav>
+
+
+    
+    <div class="chat">
+        <h2 id="post_history">Questions</h2>
+        <div id="chat_box"></div>
     </div>
-</div>
-<div class="chat">
-    <h2 id="post_history">Post History</h2>
-    <div id="chat_box"></div>
-</div>
 <div class="contents">
     <div class="quiz">
         <h2>Create a Quiz Question</h2>
@@ -47,18 +71,6 @@
         </div>
     </div>
     <br>
-    <div class="view-grades">
-        <form action="/gradebook" method="get" enctype="application/x-www-form-urlencoded">
-            <input type="submit" value="View grades">
-
-        </form>
-    </div>
-    <br>
-    <div class="admin-grades">
-        <form action="/admin_gradebook" method="get" enctype="application/x-www-form-urlencoded">
-            <input type="submit" value="View admin grades">
-
-        </form>
 </div>
 <script>
     function displayChoices(value) {

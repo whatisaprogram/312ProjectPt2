@@ -1,4 +1,3 @@
-
 body, html {
     margin: 0;
     padding: 0;
@@ -12,7 +11,9 @@ body, html {
     height: 95%;
 }
 
-
+.active {
+    margin-top: 2px;
+}
 
 .header {
     display: flex;
@@ -22,54 +23,6 @@ body, html {
     align-items: center;
 }
 
-.contents {
-    display: flex;
-    justify-content: space-around;
-    height: 100%;
-}
-
-.chat {
-    background-color: #146C94;
-    padding: 20px;
-}
-
-#chat_box {
-    height: 50%;
-    overflow: scroll;
-    background-color: #F6F1F1;
-    color: black;
-}
-
-.post-form {
-    height: 30px;
-}
-
-.user-list {
-    width: 30%;
-    background-color: #19A7CE;
-    padding: 20px;
-}
-
-.header > div {
-    padding: 20px;
-}
-
-.user-info {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-}
-
-#username {
-    background-color: #e74c3c;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
 
 
 .button_like {
@@ -92,7 +45,7 @@ body, html {
 .button_like {
     background-color: transparent;
     border: none;
-    color: #e74c3c;
+    color: #3ce77e;
     font-size: 18px;
     cursor: pointer;
     margin-right: 5px;
@@ -102,7 +55,7 @@ body, html {
 }
 
 .button_like:hover {
-    color: #c0392b;
+    color: #126321;
 }
 
 .button_like:focus {
@@ -163,10 +116,9 @@ select {
 
 input[type="submit"] {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #78a57a;
     color: #fff;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
 }
 
@@ -175,3 +127,352 @@ input[type="submit"]:hover {
 }
 
 
+/* code from nininini njnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjnjknknkn*/
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+.my_image {
+    height: 100%;
+    align-content: center;
+}
+
+img {
+    --s: 15px;  
+    --b: 2px;   
+    --w: 200px; 
+    --c: #564646;
+    
+    width: var(--w);
+    aspect-ratio: 1;
+    object-fit: cover;
+    padding: calc(2*var(--s));
+    border: 1px solid rgb(27, 17, 22);
+
+  }
+  
+  .post {
+    margin: auto;
+    max-width: 600px;
+    border: 5px solid rgb(27, 17, 22);
+  }
+  .card {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: -1px;
+    border: 5px solid rgb(27, 17, 22);
+  }
+
+
+.contents {
+    display: flex;
+    justify-content: space-around;
+    height: 100%;
+}
+
+.chat {
+    background-color: #a6d2c5;
+    padding: 50px;
+}
+
+#chat_box {
+    height: 50%;
+    overflow: scroll;
+    background-color: #F6F1F1;
+    color: black;
+}
+
+.post-form {
+    height: 30px;
+}
+
+.user-list {
+    width: 30%;
+    background-color: #83ceb7;
+    padding: 20px;
+}
+
+.header > div {
+    padding: 20px;
+}
+
+.user-info {
+    position: absolute;
+    top: 15px;   
+    right: 15px; 
+}
+
+
+
+
+.button_like {
+    border: none;
+    color: black;
+    padding: 5px 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.post-form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.button_like {
+    background-color: transparent; 
+    border: none; 
+    color: #e74c3c; 
+    font-size: 18px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: color 0.3s;
+    padding: 0; 
+    outline: none; 
+}
+
+.button_like:hover {
+    color: #c0392b; 
+}
+
+.button_like:focus {
+    outline: none; 
+    box-shadow: none; 
+}
+
+#like_count {
+    vertical-align: middle; 
+}
+
+
+.button_like {background-color: #D3D3D3;}
+
+.contents {
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+.quiz {
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: bold;
+}
+
+
+
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+#choices {
+    margin-bottom: 10px;
+}
+
+input[type="submit"] {
+    width: 100%;
+    background-color: #757c76;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #949d94;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    margin: 10px;
+    visibility: hidden; /* Use visibility instead of display */
+    opacity: 0; /* Set initial opacity to 0 */
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    transition: visibility 0s, opacity 0.5s linear; /* Transition for visibility and opacity */
+}
+
+.dropdown:hover .dropdown-content {
+    visibility: visible; /* Make it visible on hover */
+    opacity: 1; /* Set opacity to 1 */
+    transition-delay: 0s; /* No delay when showing */
+}
+
+.dropdown-content:hover {
+    visibility: visible; /* Keep it visible when hovered over */
+    opacity: 1; /* Set opacity to 1 */
+    transition-delay: 0s; /* No delay when showing */
+}
+
+.dropdown:hover .dropdown-content {
+    transition-delay: 0s; /* No delay when showing */
+}
+
+.dropdown:not(:hover) .dropdown-content {
+    transition-delay: 1s; /* Delay when hiding, adjust as needed */
+}
+#navbar {
+    background: white;
+    color: rgb(13, 26, 38);
+    position: fixed;
+    top: 0;
+    height: 60px;
+    line-height: 60px;
+    width: 100vw;
+    z-index: 10;
+  }
+  
+  .nav-wrapper {
+    margin: auto;
+    text-align: center;
+    width: 70%;
+  } @media(max-width: 768px) {
+      .nav-wrapper {
+        width: 90%;
+      }
+    } @media(max-width: 638px) {
+        .nav-wrapper {
+          width: 100%;
+        }
+      } 
+  
+  
+.logo {
+    float: left;
+    cursor: pointer;
+    margin-left: 28px;
+    font-size: 1.5em;
+    height: 60px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  } @media(max-width: 768px) {
+    .logo {
+  /*       margin-left: 5px; */
+      }
+}
+  
+  #navbar ul {
+    display: inline-block;
+    float: right;
+    list-style: none;
+    /* margin-right: 14px; */
+    margin-top: -2px;
+    text-align: right;
+    transition: transform 0.5s ease-out;
+    -webkit-transition: transform 0.5s ease-out;
+  } @media(max-width: 640px) {
+      #navbar ul {
+        display: none;
+      }
+    } @media(orientation: landscape) {
+        #navbar ul {
+          display: inline-block;
+        }
+      }
+  
+  #navbar li {
+    display: inline-block;
+  }
+  .a-tag{
+    color: rgb(13, 26, 38);
+    display: block;
+    font-size: 0.7em;
+    height: 50px;
+    letter-spacing: 1px;
+    margin: 0 20px;
+    padding: 0 4px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+  
+  }
+  #navbar li a {
+    color: rgb(13, 26, 38);
+    display: block;
+    font-size: 0.7em;
+    height: 50px;
+    letter-spacing: 1px;
+    margin: 0 20px;
+    padding: 0 4px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+  }
+  
+  #navbar li a:hover {
+    /* border-bottom: 1px solid rgb(28, 121, 184); */
+    color: rgb(28, 121, 184);
+    transition: all 1s ease;
+    -webkit-transition: all 1s ease;
+  }
+  
+  /* Animated Bottom Line */
+  #navbar li a:before, #navbar li a:after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 1px;
+    bottom: -1px;
+    background: rgb(13, 26, 38);
+  }
+  
+  #navbar li a:before {
+    left: 0;
+    transition: 0.5s;
+  }
+  
+  #navbar li a:after {
+    background: rgb(13, 26, 38);
+    right: 0;
+    /* transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1); */
+  }
+  
+  #navbar li a:hover:before {
+    background: rgb(13, 26, 38);
+    width: 100%;
+    transition: width 0.5s cubic-bezier((0.22, 0.61, 0.36, 1));
+  }
+  
+  #navbar li a:hover:after {
+    background: transparent;
+    width: 100%;
+  }
+  
+  
+  
+  .email {
+    margin-left: 10px; 
+    color:black; 
+    text-decoration: none; 
+    font-weight: bold; 
+    cursor: pointer; 
+}
+
+.email:hover {
+    text-decoration: underline; 
+}

@@ -19,9 +19,104 @@ from database import OurDataBase
 from flask_socketio import SocketIO, emit, send
 from util.increment_question_id import add_question, get_all_questions
 from util.answer_handling import check_answer
+import time
+from flask_mail import Mail, Message
+import secrets
+from itsdangerous import URLSafeTimedSerializer
+from flask import url_for
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, Email, To, Content
 
-
+#withemailverificationss
 app = Flask(__name__)
+mail =Mail(app)
+
+
+# emailverification
+def generate_secret_key(length=80):
+    return secrets.token_hex(length)
+
+app.config['SECRET_KEY'] = generate_secret_key()
+
+serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+def generate_verification_token(email):
+    return serializer.dumps(email, salt='email-confirmation')
+
+
+
+
+
+app.config['SENDGRID_API_KEY'] = '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'
+app.config['FROM_EMAIL'] = 'topquiz012@gmail.com'
+
+def send_verification_email(email, username):
+    token = generate_verification_token(email)
+    print("emaiiiil token",token)
+    db = OurDataBase()
+    users = db["Users"]
+    username=user_authenticated()
+       
+
+    users.update_one({"username": username}, {"$set": {"email_token": token}}, upsert=False)
+
+    print("usernamemm",username)
+
+    confirm_url = url_for('confirm_email', token=token, _external=True)
+
+    from_email = Email(app.config['FROM_EMAIL'])  # Use the Email class
+    to_email = To(email)  # Use the To class
+    print("from email",from_email)
+    subject = 'Email Verification'
+    content = Content('text/html', f'Hello {username},<br>Please click on the link to verify your email: <a href="{confirm_url}">{confirm_url}</a>')
+
+    message = Mail(from_email, to_email, subject, content)
+
+    try:
+        sg = SendGridAPIClient(app.config['SENDGRID_API_KEY'])
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(str(e))
+
+
+@app.route('/send-verification-email', methods=['POST'])
+def send_verification_email_route():
+    user = user_authenticated()
+    if user:
+        db = OurDataBase()
+        users = db["Users"]
+        user_data = users.find_one({"username": user})
+        if user_data and not user_data.get("email_confirmed"):
+            email = user_data['email']
+            print("sent to",email)
+            # call the function to send the verification email
+            send_verification_email(email, user)
+            db.close()
+            return jsonify({"status": "success"}), 200
+        db.close()
+    return jsonify({"status": "error"}), 400
+
+
+@app.route('/confirm_email/<token>')
+def confirm_email(token):
+    print("email token", token)
+    db = OurDataBase()
+    users = db["Users"]
+    
+    # db = OurDataBase()
+    # users = db["Users"]
+    username=user_authenticated()
+       
+
+    users.update_one({"email_token": token}, {"$set": {"email_confirmed": True}}, upsert=False)
+    print("usernamemm",username)
+    
+    return "Email confirmed"
+#--------------------------------------------------------
+
 app.secret_key = "secret key"
 UPLOAD_FOLDER = 'public/image/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -30,7 +125,17 @@ socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*", transp
 
 @socketio.on('connect')
 def connect():
-    print('Connected')
+    db = OurDataBase()
+    posts = db["Posts"]
+    data=posts.find({})
+    timeDic={}
+    for record in data:
+        times = record['end_time']
+        id=record['post_id']
+        timeDic[id]=times
+    time.sleep(1)
+
+    socketio.emit('update_remaining_time', json.dumps(timeDic))
 
 # for easy switching between local and docker
 def add_no_sniff(response):
@@ -95,6 +200,19 @@ def dashboard():
     resp.headers['Content-Type'] = 'text/html; charset=utf-8'
     resp.headers['X-Content-Type-Options'] = 'nosniff'
     return resp
+
+@app.route("/api/verification-status")
+def api_verification_status():
+    user = user_authenticated()
+    if user:
+        db = OurDataBase()
+        users = db["Users"]
+        user_data = users.find_one({"username": user})
+        db.close()
+        if user_data:
+            is_verified = user_data.get("email_confirmed", False)
+            return jsonify({"is_verified": is_verified})
+    return jsonify({"is_verified": False})
 
 @app.get("/public/<file>")
 def send_static_file(file):
@@ -178,6 +296,7 @@ def join_us_spongebob():
     resp = flask.Response()
     username = html.escape(req.form["username_reg"])
     password = req.form["password_reg"]
+    email=req.form["email_reg"]
     db = OurDataBase()
     users = db["Users"]
     found_user = users.find_one({"username": username})
@@ -185,7 +304,7 @@ def join_us_spongebob():
         bytess = password.encode('utf-8')
         salt = bcrypt.gensalt()
         hashed_salted = bcrypt.hashpw(bytess, salt)
-        users.insert_one({"username": username, "password": hashed_salted})
+        users.insert_one({"username": username, "password": hashed_salted, 'email_confirmed':False, 'email':email, 'email_token':None})
         bodymessage = "Successfully created " + username + "!"
     else:
         bodymessage = username + " is already taken!"
@@ -305,7 +424,7 @@ def create_post():
             "answer_method": answer_method,
             "correct_answers": correct_answers,
             "image_filename": image_path,
-            "time": datetime.now(),
+            "end_time": int(time.time())+70,
             "submited_users": ""
         })
         db.close()
@@ -326,7 +445,7 @@ def create_post():
             "choice3": choice3,
             "choice4": choice4,
             "image_filename": image_path,
-            "time": datetime.now(),
+            "end_time": int(time.time()) + 70,
             "submited_users": ""
         })
         db.close()
@@ -479,7 +598,29 @@ def admin_gradebook():
                 answered.append([i, str(actual) + "/" + str(total)])
         db.close()
     return render_template("admin_gradebook.html", user=user, questions=answered)
+@app.route("/grades")
+def grade():
+    user = user_authenticated()
+    with open("./public/grades.html", 'rb') as f:
+        content = f.read()
+    resp = flask.Response()
+    resp.data = content
+    resp.headers['Content-Type'] = 'text/html; charset=utf-8'
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
+    return resp
 
+@app.route("/logout")
+def logout():
+    auth_token = flask.request.cookies.get('token')
+    if auth_token is not None:
+        db = OurDataBase()
+        users = db["Users"]
+        token_hash = hash_token(auth_token)
+        users.update_one({"token": token_hash}, {"$set": {"token": None, "expires": current_timestamp()}}, upsert=False)
+        db.close()
+    resp = flask.redirect("/")
+    resp.delete_cookie('token')
+    return resp
 
 if __name__ == "__main__":
     # Socket IO run initialization with app and port being passed.

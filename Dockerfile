@@ -1,7 +1,6 @@
 FROM python:3.8
 
 ENV HOME /root
-
 WORKDIR /root
 
 COPY . .

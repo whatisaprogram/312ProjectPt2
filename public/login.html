@@ -1,4 +1,4 @@
-<html lang="en">
+ <html lang="en">
 
 <head>
     <title>CSE312 Homework App</title>
@@ -11,18 +11,20 @@
           <header>Signup</header>
           <form action="/register" method="post" enctype="application/x-www-form-urlencoded">
             <input type="text" placeholder="Username" name="username_reg"required />
+            <input type="email" placeholder="Email" name="email_reg"required />
             <input type="password" placeholder="Password" name="password_reg" required />
-            <input type="submit" value="Signup" />
+            <input class="button-56" type="submit" value="Signup" />
           </form>
         </div>
         <div class="form login">
           <header>Login</header>
           <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
             <input type="text" placeholder="Username" name="username_login" required />
+            <input type="email" placeholder="Email" name="email_login"required />
             <input type="password" placeholder="Password" name="password_login" required />
 
-            <button onclick="location.href='/guest'" class="bttn-2">Login as Guest</button>
-            <input type="submit" value="Login" />
+            <button onclick="location.href='/guest'" class="button-56">Login as Guest</button>
+            <input class="button-56" type="submit" value="Login" />
           </form>
         </div>
 

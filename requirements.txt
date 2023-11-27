@@ -6,3 +6,6 @@ markupsafe
 waitress
 flask_socketio
 eventlet
+Flask-Mail
+sendgrid
+itsdangerous

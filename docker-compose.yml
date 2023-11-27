@@ -1,17 +1,17 @@
-version: '3'
+version: '3.3'
 services:
-  nginx:
-    build: ./nginx
-    ports:
+ nginx:
+  build: ./nginx
+  ports:
       - '80:80'
       - '443:443'
-  hm2:
-    build: .
-    environment:
-      WAIT_HOSTS: mongo:27017
-#    ports:
-#      - '8080:8080'
-  mongo:
+ mongo:
     image: mongo:4.2.5
     ports:
       - '27017:27017'
+ server:
+    build: .
+    environment:
+      WAIT_HOSTS: mongo:27017
+    ports:
+      - '8080:8080'
