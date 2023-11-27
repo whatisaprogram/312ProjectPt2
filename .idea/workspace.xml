@@ -5,32 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d988e35-642b-462e-a409-8a956b248f7d" name="Changes" comment="Final Draft: LO1, LO2, LO3 Combined">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/project-part2-2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/project-part2-2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nginx/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/nginx/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nginx/default.conf" beforeDir="false" afterPath="$PROJECT_DIR$/nginx/default.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/functions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/gradebook_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/gradebook_style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/stuff.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/stuff.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin_gradebook.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin_gradebook.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/gradebook.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/gradebook.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/questions.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/questions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/answer_handling.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/answer_handling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/increment_question_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/increment_question_id.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/request.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/request.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +126,8 @@
       <workItem from="1700686748354" duration="616000" />
       <workItem from="1700843160407" duration="14000" />
       <workItem from="1701105706561" duration="455000" />
-      <workItem from="1701106303156" duration="626000" />
+      <workItem from="1701106303156" duration="1241000" />
+      <workItem from="1701108478186" duration="735000" />
     </task>
     <task id="LOCAL-00001" summary="Updated database for each post to have likes and unique ids. Updated total like count.">
       <created>1697607952708</created>
