@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d988e35-642b-462e-a409-8a956b248f7d" name="Changes" comment="Final Draft: LO1, LO2, LO3 Combined">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +130,7 @@
       <workItem from="1701108478186" duration="2506000" />
       <workItem from="1701120117617" duration="121000" />
       <workItem from="1701120288064" duration="73000" />
-      <workItem from="1701183698523" duration="3738000" />
+      <workItem from="1701183698523" duration="4386000" />
     </task>
     <task id="LOCAL-00001" summary="Updated database for each post to have likes and unique ids. Updated total like count.">
       <created>1697607952708</created>
