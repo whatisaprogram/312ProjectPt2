@@ -26,6 +26,8 @@ from itsdangerous import URLSafeTimedSerializer
 from flask import url_for
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, Email, To, Content
+from dotenv import load_dotenv
+load_dotenv()
 
 #withemailverificationss
 app = Flask(__name__)
@@ -47,7 +49,7 @@ def generate_verification_token(email):
 
 
 
-app.config['SENDGRID_API_KEY'] = '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'
+app.config['SENDGRID_API_KEY'] = os.getenv('api_key')
 app.config['FROM_EMAIL'] = 'topquiz012@gmail.com'
 
 def send_verification_email(email, username):

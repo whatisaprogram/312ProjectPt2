@@ -9,3 +9,4 @@ eventlet
 Flask-Mail
 sendgrid
 itsdangerous
+python-dotenv
