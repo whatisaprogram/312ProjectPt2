@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="9d988e35-642b-462e-a409-8a956b248f7d" name="Changes" comment="Final Draft: LO1, LO2, LO3 Combined">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nginx/default.conf" beforeDir="false" afterPath="$PROJECT_DIR$/nginx/default.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nginx/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nginx/default.conf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +130,10 @@
       <workItem from="1700843160407" duration="14000" />
       <workItem from="1701105706561" duration="455000" />
       <workItem from="1701106303156" duration="1241000" />
-      <workItem from="1701108478186" duration="1635000" />
+      <workItem from="1701108478186" duration="2506000" />
+      <workItem from="1701120117617" duration="121000" />
+      <workItem from="1701120288064" duration="73000" />
+      <workItem from="1701183698523" duration="2385000" />
     </task>
     <task id="LOCAL-00001" summary="Updated database for each post to have likes and unique ids. Updated total like count.">
       <created>1697607952708</created>
