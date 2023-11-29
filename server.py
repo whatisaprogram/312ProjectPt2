@@ -20,7 +20,6 @@ from flask_socketio import SocketIO, emit, send
 from util.increment_question_id import add_question, get_all_questions
 from util.answer_handling import check_answer
 import time
-from flask_mail import Mail, Message
 import secrets
 from itsdangerous import URLSafeTimedSerializer
 from flask import url_for
