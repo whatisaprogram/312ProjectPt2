@@ -63,10 +63,9 @@ def send_verification_email(email, username):
 
     print("usernamemm",username)
 
-    confirm_url = url_for('confirm_email', token=token)
+    confirm_url = url_for('confirm_email', token=token, _external=True)
     confirm_url = confirm_url.replace("127.0.0.1:8080", os.getenv('SERVER_NAME'))
-
-
+    
 
     from_email = Email(app.config['FROM_EMAIL'])  # Use the Email class
     to_email = To(email)  # Use the To class
