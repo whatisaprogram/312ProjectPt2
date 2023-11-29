@@ -50,6 +50,7 @@ def generate_verification_token(email):
 
 
 app.config['SENDGRID_API_KEY'] = os.getenv('api_key')
+app.config['SERVER_NAME'] = os.getenv('SERVER_NAME')
 app.config['FROM_EMAIL'] = 'topquiz012@gmail.com'
 
 def send_verification_email(email, username):
