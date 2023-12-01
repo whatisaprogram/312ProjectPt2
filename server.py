@@ -32,6 +32,21 @@ load_dotenv()
 app = Flask(__name__)
 mail =Mail(app)
 
+#IP Blocking
+IP_counts = {}
+IP_timers = {}
+
+@app.before_request
+def ip_check():
+    ip = request.headers.get('X-Actual-IP', 0)
+    current_time = time.time()
+    if ip != 0:
+        known = IP_counts.get(str(ip), 0)
+        if known == 0:
+            IP_counts[ip] = 1
+            IP_timers[ip] = [int(time.time()) + 10, 0]
+        else:
+            IP_counts[ip] += 1
 
 # emailverification
 def generate_secret_key(length=80):
