@@ -32,6 +32,7 @@ load_dotenv()
 app = Flask(__name__)
 mail =Mail(app)
 
+
 #########################################################################################################
 #########################################################################################################
 #IP Blocking/New content for Obj 3 starts here
@@ -41,15 +42,22 @@ IP_timers = {}
 
 @app.before_request
 def ip_check():
+    print("headerrr",request.headers)
     ip = request.headers.get('X-Actual-IP', 0)
+    print("didn't go through")
     current_time = int(time.time())
     if ip != 0:
         known = IP_counts.get(str(ip), 0)
+
         if known == 0:
             IP_counts[ip] = 1
             IP_timers[ip] = [int(time.time()) + 10, 0]
         else:
             IP_counts[ip] += 1
+
+        print('1 IP_counts ',IP_counts )
+        print('2 IP_timers ',IP_timers )
+
 
         #If IP is blocked then we send error request
         if IP_timers[ip][1] != 0 and time.time() <= IP_timers[ip][1]:
@@ -61,16 +69,22 @@ def ip_check():
         if IP_timers[ip][1] != 0 and current_time > IP_timers[ip][1]:
             IP_counts[ip] = 0
             IP_timers[ip] = [int(time.time()), 0]
+        print('3 IP_counts ',IP_counts )
+        print('4 IP_timers ',IP_timers )
 
         #If more than 50 requests have been made in 10s, block and send error request else reset
         if IP_timers[ip][0] != 0 and current_time <= IP_timers[ip][0] and IP_counts[ip] >= 50:
             IP_timers[ip] = [0, int(time.time()) + 30]
             resp = make_response("You have sent too many requests, try again after 30 seconds")
             resp.status = "429 Too Many Requests"
+            print('5 IP_counts ',IP_counts )
+            print('6 IP_timers ',IP_timers )
             return resp
         elif IP_timers[ip][0] != 0 and current_time > IP_timers[ip][0]:
             IP_counts[ip] = 0
             IP_timers[ip] = [int(time.time()) + 10, 0]
+            print('6 IP_counts ',IP_counts )
+            print('7 IP_timers ',IP_timers )
 
 #IP Blocking/New content for Obj 3 ends here
 #########################################################################################################
