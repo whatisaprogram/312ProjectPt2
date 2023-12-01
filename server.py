@@ -32,6 +32,49 @@ load_dotenv()
 app = Flask(__name__)
 mail =Mail(app)
 
+#########################################################################################################
+#########################################################################################################
+#IP Blocking/New content for Obj 3 starts here
+
+IP_counts = {}
+IP_timers = {}
+
+@app.before_request
+def ip_check():
+    ip = request.headers.get('X-Actual-IP', 0)
+    current_time = int(time.time())
+    if ip != 0:
+        known = IP_counts.get(str(ip), 0)
+        if known == 0:
+            IP_counts[ip] = 1
+            IP_timers[ip] = [int(time.time()) + 10, 0]
+        else:
+            IP_counts[ip] += 1
+
+        #If IP is blocked then we send error request
+        if IP_timers[ip][1] != 0 and time.time() <= IP_timers[ip][1]:
+            resp = make_response("You have sent too many requests, try again after 30 seconds")
+            resp.status = "429 Too Many Requests"
+            return resp
+
+        #if block ends then reset
+        if IP_timers[ip][1] != 0 and current_time > IP_timers[ip][1]:
+            IP_counts[ip] = 0
+            IP_timers[ip] = [int(time.time()), 0]
+
+        #If more than 50 requests have been made in 10s, block and send error request else reset
+        if IP_timers[ip][0] != 0 and current_time <= IP_timers[ip][0] and IP_counts[ip] >= 50:
+            IP_timers[ip] = [0, int(time.time()) + 30]
+            resp = make_response("You have sent too many requests, try again after 30 seconds")
+            resp.status = "429 Too Many Requests"
+            return resp
+        elif IP_timers[ip][0] != 0 and current_time > IP_timers[ip][0]:
+            IP_counts[ip] = 0
+            IP_timers[ip] = [int(time.time()) + 10, 0]
+
+#IP Blocking/New content for Obj 3 ends here
+#########################################################################################################
+#########################################################################################################
 
 # emailverification
 def generate_secret_key(length=80):
@@ -43,9 +86,6 @@ serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 def generate_verification_token(email):
     return serializer.dumps(email, salt='email-confirmation')
-
-
-
 
 
 app.config['SENDGRID_API_KEY'] = os.getenv('api_key')
