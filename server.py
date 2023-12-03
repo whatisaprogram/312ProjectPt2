@@ -103,7 +103,7 @@ def generate_verification_token(email):
 
 
 app.config['SENDGRID_API_KEY'] = os.getenv('api_key')
-app.config['FROM_EMAIL'] = 'topquiz012@gmail.com'
+app.config['FROM_EMAIL'] = 'no-reply@cse312project.com'
 
 def send_verification_email(email, username):
     token = generate_verification_token(email)
